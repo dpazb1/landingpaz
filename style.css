@@ -389,6 +389,21 @@ bottom: 20px;
   cursor: pointer;
   transition: background-color 0.3s;
   color: var(--dark-gray);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.select-wrapper .option .comuna {
+  color: var(--primary-color);
+  font-size: 12px;
+  opacity: 0.8;
+  margin-left: 10px;
+  white-space: nowrap;
+}
+
+.select-wrapper .option.selected .comuna {
+  color: var(--white);
 }
 
 .select-wrapper .option:hover {
@@ -477,7 +492,7 @@ bottom: 20px;
 }
 
 .select-wrapper .option {
-  padding: 10px;
+  padding: 8px 12px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
@@ -592,6 +607,7 @@ bottom: 20px;
   font-size: 14px;
   outline: none;
   transition: border-color 0.3s ease;
+  margin-bottom: 8px;
 }
 
 .search-input:focus {
@@ -784,4 +800,9 @@ input:-webkit-autofill:active{
 #room-type-select.active .select-btn {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 2px rgba(74, 59, 137, 0.1);
+}
+
+/* Ensure the comuna stays visible when option is hovered */
+.select-wrapper .option:hover .comuna {
+  opacity: 1;
 } 
