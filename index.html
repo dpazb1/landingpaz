@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aporte Paz 2024 - 10% de tu pie</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section class="main-section">
+    <div class="container">
+      <div class="main-content">
+        <div class="form-container">
+          <h3 class="form-title">Inscríbete aquí</h3>
+          <form>
+            <div class="form-group">
+              <input type="text" id="name" class="form-control" required placeholder="Nombre *">
+            </div>
+            <div class="form-group">
+              <input type="text" id="rut" class="form-control" required placeholder="RUT *">
+            </div>
+            <div class="form-group">
+              <input type="tel" id="phone" class="form-control" required placeholder="Teléfono *">
+            </div>
+            <div class="form-group">
+              <input type="email" id="email" class="form-control" required placeholder="Correo electrónico *">
+            </div>
+            <div class="form-group">
+              <label>Proyecto de interés *</label>
+              <div class="select-wrapper" id="project-select">
+                <div class="select-btn">Selecciona uno o más proyectos</div>
+                <div class="select-content">
+                  <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Buscar proyecto...">
+                  </div>
+                  <ul class="options">
+                    <li class="option" data-value="all">Todos</li>
+                    <li class="option" data-value="caiquen">CAIQUÉN</li>
+                    <li class="option" data-value="carrion">CARRIÓN</li>
+                    <li class="option" data-value="carrion2">CARRIÓN 2</li>
+                    <li class="option" data-value="colombia">COLOMBIA 7664</li>
+                    <li class="option" data-value="centenario">EDIFICIO IV CENTENARIO 1025</li>
+                    <li class="option" data-value="fernandez">EXEQUIEL FERNÁNDEZ 3.430</li>
+                    <li class="option" data-value="livin">LIVIN</li>
+                    <li class="option" data-value="mosaic">MOSAIC</li>
+                    <li class="option" data-value="art">ART NEO</li>
+                    <li class="option" data-value="pop">ART POP</li>
+                    <li class="option" data-value="revelacion">REVELACIÓN</li>
+                    <li class="option" data-value="santa">SANTA ELVIRA 46</li>
+                    <li class="option" data-value="seminario">SEMINARIO 850</li>
+                    <li class="option" data-value="seven">SEVEN</li>
+                    <li class="option" data-value="teresa">TERESA VIAL 1139</li>
+                    <li class="option" data-value="tradicion">TRADICIÓN</li>
+                    <li class="option" data-value="zorzal">ZORZAL</li>
+                  </ul>
+                </div>
+                <div class="selected-projects"></div>
+              </div>
+            </div>
+            <div class="form-group" id="room-type-group" style="display: none;">
+              <label>Tipo de departamento *</label>
+              <div class="select-wrapper" id="room-type-select">
+                <div class="select-btn">Selecciona uno o más tipos</div>
+                <div class="select-content">
+                  <ul class="options">
+                    <li class="option" data-value="all">Todos</li>
+                    <li class="option" data-value="home-studio">Home Studio</li>
+                    <li class="option" data-value="1-dorm">1 Dormitorio</li>
+                    <li class="option" data-value="2-dorm">2 Dormitorios</li>
+                    <li class="option" data-value="3-dorm">3 Dormitorios</li>
+                  </ul>
+                </div>
+                <div class="selected-projects"></div>
+              </div>
+            </div>
+            <div class="checkbox-group">
+              <input type="checkbox" id="terms" required>
+              <label for="terms">Autorizo a Inmobiliaria PAZ a que me envíe información.</label>
+            </div>
+            <button type="submit" class="btn-submit">Enviar</button>
+            <p class="legal-text">
+              *Consulta bases legales con tu asesor inmobiliario en Centro de ventas Las Condes, ubicado en Av. Las Condes 7430 o en cualquier de nuestras salas de venta. Horario de lunes a viernes 11:00 a 14:00 y de 15:00 a 19:15 hrs. donde se entregará una copia de ellas.
+            </p>
+          </form>
+        </div>
+      </div>
+      <div class="footer-logo-container">
+        <img src="https://landing.paz.cl/images/logo-paz-blanco.svg" alt="Paz Corp Logo" class="footer-logo">
+      </div>
+      <div class="bottom-spacer"></div>
+    </div>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>
