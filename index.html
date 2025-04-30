@@ -12,18 +12,33 @@
       <div class="main-content">
         <div class="form-container">
           <h3 class="form-title">Inscríbete aquí</h3>
-          <form>
+          <form id="contactForm" novalidate>
             <div class="form-group">
-              <input type="text" id="name" class="form-control" required placeholder="Nombre *">
+              <input type="text" id="name" class="form-control" placeholder="Nombre *">
+              <div class="error-message">Por favor ingresa tu nombre completo</div>
             </div>
             <div class="form-group">
-              <input type="text" id="rut" class="form-control" required placeholder="RUT *">
+              <input type="text" id="rut" class="form-control" placeholder="RUT *">
+              <div class="error-message">Por favor ingresa un RUT válido (ejemplo: 12.345.678-9)</div>
             </div>
             <div class="form-group">
-              <input type="tel" id="phone" class="form-control" required placeholder="Teléfono *">
+              <div class="phone-input-container">
+                <div class="select-wrapper phone-prefix-wrapper">
+                  <div class="select-btn">+56 9</div>
+                  <div class="select-content">
+                    <ul class="options">
+                      <li class="option" data-value="569">+56 9</li>
+                      <li class="option" data-value="562">+56 2</li>
+                    </ul>
+                  </div>
+                </div>
+                <input type="tel" id="phone" class="form-control" placeholder="Teléfono *" maxlength="9">
+              </div>
+              <div class="error-message">Por favor ingresa un número de teléfono válido</div>
             </div>
             <div class="form-group">
-              <input type="email" id="email" class="form-control" required placeholder="Correo electrónico *">
+              <input type="email" id="email" class="form-control" placeholder="Correo electrónico *">
+              <div class="error-message">Por favor ingresa un correo electrónico válido</div>
             </div>
             <div class="form-group">
               <label>Proyecto de interés *</label>
@@ -35,27 +50,28 @@
                   </div>
                   <ul class="options">
                     <li class="option" data-value="all">Todos</li>
-                    <li class="option" data-value="caiquen">CAIQUÉN</li>
-                    <li class="option" data-value="carrion">CARRIÓN</li>
-                    <li class="option" data-value="carrion2">CARRIÓN 2</li>
-                    <li class="option" data-value="colombia">COLOMBIA 7664</li>
-                    <li class="option" data-value="centenario">EDIFICIO IV CENTENARIO 1025</li>
-                    <li class="option" data-value="fernandez">EXEQUIEL FERNÁNDEZ 3.430</li>
-                    <li class="option" data-value="livin">LIVIN</li>
-                    <li class="option" data-value="mosaic">MOSAIC</li>
-                    <li class="option" data-value="art">ART NEO</li>
-                    <li class="option" data-value="pop">ART POP</li>
-                    <li class="option" data-value="revelacion">REVELACIÓN</li>
-                    <li class="option" data-value="santa">SANTA ELVIRA 46</li>
-                    <li class="option" data-value="seminario">SEMINARIO 850</li>
-                    <li class="option" data-value="seven">SEVEN</li>
-                    <li class="option" data-value="teresa">TERESA VIAL 1139</li>
-                    <li class="option" data-value="tradicion">TRADICIÓN</li>
-                    <li class="option" data-value="zorzal">ZORZAL</li>
+                    <li class="option" data-value="caiquen">Caiquén</li>
+                    <li class="option" data-value="carrion">Carrión</li>
+                    <li class="option" data-value="carrion2">Carrión 2</li>
+                    <li class="option" data-value="colombia">Colombia 7664</li>
+                    <li class="option" data-value="centenario">Edificio IV Centenario 1025</li>
+                    <li class="option" data-value="fernandez">Exequiel Fernández 3.430</li>
+                    <li class="option" data-value="livin">Livin</li>
+                    <li class="option" data-value="mosaic">Mosaic</li>
+                    <li class="option" data-value="art">Art Neo</li>
+                    <li class="option" data-value="pop">Art Pop</li>
+                    <li class="option" data-value="revelacion">Revelación</li>
+                    <li class="option" data-value="santa">Santa Elvira 46</li>
+                    <li class="option" data-value="seminario">Seminario 850</li>
+                    <li class="option" data-value="seven">Seven</li>
+                    <li class="option" data-value="teresa">Teresa Vial 1139</li>
+                    <li class="option" data-value="tradicion">Tradición</li>
+                    <li class="option" data-value="zorzal">Zorzal</li>
                   </ul>
                 </div>
                 <div class="selected-projects"></div>
               </div>
+              <div class="error-message">Por favor selecciona al menos un proyecto</div>
             </div>
             <div class="form-group" id="room-type-group" style="display: none;">
               <label>Tipo de departamento *</label>
@@ -72,24 +88,26 @@
                 </div>
                 <div class="selected-projects"></div>
               </div>
+              <div class="error-message">Por favor selecciona al menos un tipo de departamento</div>
             </div>
             <div class="checkbox-group">
-              <input type="checkbox" id="terms" required>
+              <input type="checkbox" id="terms">
               <label for="terms">Autorizo a Inmobiliaria PAZ a que me envíe información.</label>
+              <div class="error-message error-auth">Por favor acepta los términos y condiciones</div>
             </div>
             <button type="submit" class="btn-submit">Enviar</button>
             <p class="legal-text">
-              *Consulta bases legales con tu asesor inmobiliario en Centro de ventas Las Condes, ubicado en Av. Las Condes 7430 o en cualquier de nuestras salas de venta. Horario de lunes a viernes 11:00 a 14:00 y de 15:00 a 19:15 hrs. donde se entregará una copia de ellas.
+              * Consulta bases legales con tu asesor inmobiliario en centro de ventas Las Condes, ubicado en Av. Las Condes 7430 o en cualquiera de nuestras salas de venta. Horario de lunes a viernes 11:00 a 14:00 y de 15:00 a 19:15 hrs. donde se entregará una copia de ellas.
             </p>
           </form>
         </div>
       </div>
-      <div class="footer-logo-container">
-        <img src="https://landing.paz.cl/images/logo-paz-blanco.svg" alt="Paz Corp Logo" class="footer-logo">
-      </div>
       <div class="bottom-spacer"></div>
     </div>
   </section>
+  <div class="footer-logo-container">
+    <img src="https://landing.paz.cl/images/logo-paz-blanco.svg" alt="Paz Corp Logo" class="footer-logo">
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
