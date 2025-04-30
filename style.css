@@ -6,6 +6,9 @@
   --dark-gray: #666666;
   --white: #ffffff;
   --purple-hover: #5c4ba8;
+  --form-font-size: 16px;
+  --title-font-size: 24px;
+  --label-font-size: 14px;
 }
 
 * {
@@ -74,7 +77,7 @@ body {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  z-index: 10;
+  z-index: 3;
   padding: 0;
   margin: 0;
 }
@@ -103,7 +106,7 @@ body {
 
 .form-title {
   color: var(--primary-color);
-  font-size: 22px;
+  font-size: var(--title-font-size);
   font-weight: 700;
   margin-bottom: 20px;
   text-align: center;
@@ -144,7 +147,7 @@ body {
   cursor: pointer;
   text-align: left;
   position: relative;
-  font-size: 14px;
+  font-size: var(--form-font-size);
   color: var(--primary-color); 
   display: flex;
   align-items: center;
@@ -335,9 +338,11 @@ bottom: 20px;
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: var(--form-font-size);
   background-color: rgba(255, 255, 255, 0.95);
   transition: all 0.3s ease;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .form-control::placeholder {
@@ -366,7 +371,7 @@ bottom: 20px;
   cursor: pointer;
   text-align: left;
   position: relative;
-  font-size: 14px;
+  font-size: var(--form-font-size);
   color: var(--primary-color);
   opacity: 1;
   display: flex;
@@ -417,7 +422,7 @@ bottom: 20px;
   transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  font-size: 14px;
+  font-size: var(--form-font-size);
   box-shadow: 0 2px 4px rgba(114, 99, 172, 0.2);
   margin-top: 5px;
   margin-bottom: 20px;
@@ -430,7 +435,8 @@ bottom: 20px;
 }
 
 .legal-text {
-  font-size: 10px;
+  font-size: 12px;
+  line-height: 1.4;
 }
 
 .footer-logo {
@@ -502,76 +508,88 @@ bottom: 20px;
 }
 
 @media (max-width: 768px) {
+  :root {
+    --form-font-size: 16px;
+    --title-font-size: 22px;
+    --label-font-size: 14px;
+  }
+
   .container {
-    gap: 20px;
+    gap: 0;
+    padding: 0;
   }
   
   .main-content {
     padding: 0;
+    min-height: 100vh;
     justify-content: center;
-  }
-  
-  .footer-logo-container {
-    bottom: 20px;
-    right: 20px;
-  }
-  
-  .main-section {
-    background-position: right center;
-    background-size: cover;
-  }
-  
-  .main-section::before {
-    background: rgba(0, 0, 0, 0.15);
+    align-items: center;
   }
   
   .form-container {
-    max-height: calc(100vh - 40px);
-    margin: 20px auto;
-    width: 90%;
+    max-height: none;
+    margin: 0 auto;
+    width: 92%;
     max-width: 400px;
+    padding: 20px;
+    position: relative;
+    z-index: 4;
+  }
+
+  .footer-logo-container {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 2;
+  }
+
+  .footer-logo {
+    width: 100px;
+    height: auto;
   }
 }
 
 @media (max-width: 480px) {
-  .container {
-    gap: 20px;
-  }
-  
-  .main-content {
-    padding: 0;
-  }
-  
-  .footer-logo-container {
-    bottom: 20px;
-    right: 20px;
-  }
-  
-  .footer-logo {
-    width: 80px;
-  }
-  
   .form-container {
-    max-height: calc(100vh - 40px);
-    margin: 20px auto;
+    width: 92%;
+    margin: 0 auto;
     padding: 20px;
   }
 
-  /* Mantener el layout del teléfono igual que en desktop */
-  .phone-input-container {
-    flex-direction: row;
-    height: 42.5px;
-    gap: 10px;
+  .main-content {
+    padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .phone-prefix-wrapper {
-    width: 85px;
-    height: 100%;
+  .checkbox-group label {
+    font-size: var(--label-font-size);
   }
 
-  .phone-input-container .form-control {
-    flex: 1;
-    height: 100%;
+  .error-message {
+    font-size: 12px;
+  }
+
+  .btn-submit {
+    font-size: var(--form-font-size);
+    padding: 15px 24px;
+  }
+
+  .legal-text {
+    font-size: 11px;
+    line-height: 1.4;
+    margin-top: 10px;
+  }
+
+  .footer-logo-container {
+    position: absolute;
+  }
+}
+
+@media screen and (max-height: 800px) {
+  .form-container {
+    margin: 10px auto;
   }
 }
 
@@ -754,7 +772,7 @@ bottom: 20px;
     cursor: pointer;
     text-align: left;
     position: relative;
-    font-size: 14px;
+    font-size: var(--form-font-size);
     color: var(--primary-color);
     opacity: 1;
     display: flex;
