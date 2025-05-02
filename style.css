@@ -12,7 +12,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  font-family: 'Ubuntu', 'Helvetica Neue', Arial, sans-serif;
 }
 
 body {
@@ -22,6 +22,7 @@ body {
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
+  font-weight: 300 !important;
 }
 
 .container {
@@ -104,7 +105,7 @@ body {
 .form-title {
   color: var(--primary-color);
   font-size: 22px;
-  font-weight: 700;
+  font-weight: 300;
   margin-bottom: 20px;
   text-align: center;
   letter-spacing: 1px;
@@ -145,10 +146,15 @@ body {
   text-align: left;
   position: relative;
   font-size: 14px;
-  color: var(--primary-color); 
+  color: var(--primary-color);
   display: flex;
   align-items: center;
   transition: all 0.3s ease;
+  font-weight: 300 !important;
+}
+
+.select-btn .select-btn-text {
+  opacity: 0.8;
 }
 
 /* Container for selected tags */
@@ -183,6 +189,7 @@ body {
   align-items: center;
   opacity: 0.8;
   white-space: nowrap;
+  font-weight: 300 !important;
 }
 
 .selected-project .remove {
@@ -234,7 +241,7 @@ body {
   position: absolute;
   bottom: -17px;
   left: 0;
-  font-weight: 700;
+  font-weight: 300;
   z-index: 1;
   line-height: 1;
 }
@@ -259,7 +266,7 @@ body {
   position: absolute;
   bottom: -17px;
   left: 0;
-  font-weight: 700;
+  font-weight: 300;
   z-index: 1;
   line-height: 1;
 }
@@ -306,6 +313,7 @@ body {
   font-size: 12px;
   color: var(--dark-gray);
   cursor: pointer;
+  font-weight: 300 !important;
 }
 
 .error-auth {
@@ -319,7 +327,7 @@ bottom: 20px;
   border-radius: 4px;
   margin-top: 20px;
   text-align: center;
-  font-weight: 500;
+  font-weight: 300;
   animation: fadeIn 0.3s ease-in-out;
 }
 
@@ -341,6 +349,8 @@ bottom: 20px;
   font-size: 14px;
   background-color: rgba(255, 255, 255, 0.95);
   transition: all 0.3s ease;
+  color: var(--primary-color);
+  font-weight: 300 !important;
 }
 
 .form-control::placeholder {
@@ -395,6 +405,7 @@ bottom: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-weight: 300 !important;
 }
 
 .select-wrapper .option .comuna {
@@ -416,7 +427,7 @@ bottom: 20px;
 .select-wrapper .option.selected {
   background-color: rgba(74, 59, 137, 0.85);
   color: var(--white);
-  font-weight: 500;
+  font-weight: 100;
 }
 
 .select-wrapper .option.selected::after {
@@ -430,7 +441,7 @@ bottom: 20px;
   padding: 12px 24px;
   width: 100%;
   border-radius: 4px;
-  font-weight: 600;
+  font-weight: 300;
   cursor: pointer;
   transition: all 0.3s ease;
   text-transform: uppercase;
@@ -449,6 +460,7 @@ bottom: 20px;
 
 .legal-text {
   font-size: 10px;
+  font-weight: 300 !important;
 }
 
 .footer-logo {
@@ -469,6 +481,8 @@ bottom: 20px;
   transform: translateY(-50%);
   font-size: 12px;
   color: var(--primary-color);
+  opacity: 0.8;
+  font-weight: 300;
 }
 
 .select-wrapper .select-content {
@@ -507,7 +521,7 @@ bottom: 20px;
 .select-wrapper .option.selected {
   background-color: rgba(74, 59, 137, 0.85);
   color: var(--white);
-  font-weight: 500;
+  font-weight: 100;
 }
 
 .select-wrapper .option.selected::after {
@@ -597,8 +611,8 @@ bottom: 20px;
   }
 
   .form-title {
-    font-family: 'Roboto', 'Helvetica Neue', sans-serif;
-    font-weight: 700;
+    font-family: 'Ubuntu', 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 300 !important;
     font-size: 22px;
     text-align: center;
     letter-spacing: 1px;
@@ -632,6 +646,9 @@ bottom: 20px;
   outline: none;
   transition: border-color 0.3s ease;
   margin-bottom: 8px;
+  color: var(--primary-color);
+  opacity: 0.8;
+  font-weight: 300;
 }
 
 .search-input:focus {
@@ -659,7 +676,6 @@ bottom: 20px;
 
 .select-btn {
   color: var(--primary-color);
-  opacity: 1;
 }
 
 .phone-input-container {
@@ -717,6 +733,14 @@ bottom: 20px;
   transform: translateY(-50%);
   font-size: 12px;
   color: var(--primary-color);
+  opacity: 0.8;
+  font-weight: 300;
+}
+
+.phone-prefix-wrapper .select-btn .select-btn-text {
+  opacity: 0.8;
+  color: var(--primary-color);
+  font-weight: 300;
 }
 
 .phone-prefix-wrapper .select-content {
@@ -757,7 +781,7 @@ bottom: 20px;
 .phone-prefix-wrapper .option.selected {
   background-color: rgba(74, 59, 137, 0.85);
   color: var(--white);
-  font-weight: 500;
+  font-weight: 10;
 }
 
 .select-wrapper.error .select-btn {

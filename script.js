@@ -211,7 +211,7 @@ document.addEventListener('DOMContentLoaded', function() {
   prefixOptions.forEach(option => {
     option.addEventListener('click', () => {
       selectedPrefix = option.dataset.value;
-      prefixBtn.textContent = option.textContent;
+      prefixBtn.innerHTML = `<span class="select-btn-text">${option.textContent}</span>`;
       prefixWrapper.classList.remove('active');
     });
   });
@@ -378,6 +378,18 @@ document.addEventListener('DOMContentLoaded', function() {
         selectWrapper.classList.remove('active');
       }
     });
+
+    // For project select
+    if (isProjectSelect) {
+      selectBtn.innerHTML = '<span class="select-btn-text">Selecciona uno o más proyectos</span>';
+    } else {
+      selectBtn.innerHTML = '<span class="select-btn-text">Selecciona uno o más tipos</span>';
+    }
+
+    // In setupSelect, update the initial button text for prefix select as well
+    if (selectWrapper.classList.contains('phone-prefix-wrapper')) {
+      selectBtn.innerHTML = '<span class="select-btn-text">+56 9</span>';
+    }
   }
 
   function updateDisplay(selectWrapper, selectedSet, options) {
@@ -409,7 +421,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Update button text
     const selectedCount = selectedSet.size;
-    selectBtn.textContent = selectedCount > 0 ? `${selectedCount} seleccionados` : 'Selecciona uno o más';
+    selectBtn.innerHTML = `<span class="select-btn-text">${selectedCount > 0 ? `${selectedCount} seleccionados` : 'Selecciona uno o más'}</span>`;
 
     // Show/hide room type group for project select
     if (selectWrapper.id === 'project-select') {
