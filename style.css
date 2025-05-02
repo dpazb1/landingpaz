@@ -90,7 +90,7 @@ body {
   position: relative;
   z-index: 4;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-height: calc(100vh - 40px);
+  max-height: 90vh;
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -167,7 +167,7 @@ body {
   height: auto !important;
   min-height: 42.5px;
   position: relative;
-  z-index: 1;
+  z-index: 1 !important;
   align-items: flex-start;
   box-sizing: border-box;
 }
@@ -256,8 +256,9 @@ body {
   margin-bottom: 15px;
   position: relative;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 10px;
+  z-index: 10;
 }
 
 .checkbox-group .error-message {
@@ -287,10 +288,11 @@ body {
   height: 20px;
   border: 2px solid #7263ac;
   border-radius: 4px;
-  margin-top: 0.7em;
+  margin-top: 0;
   position: relative;
   cursor: pointer;
   transition: all 0.2s ease;
+  z-index: 11;
 }
 
 .checkbox-group input[type="checkbox"]:checked {
@@ -584,9 +586,8 @@ bottom: 20px;
     display: block;
   }
   .form-container {
-    max-height: none;
-    height: auto;
-    overflow-y: visible;
+    max-height: 80vh;
+    overflow-y: auto;
     margin: 20px auto;
     padding: 20px;
     max-width: 400px;
@@ -631,6 +632,17 @@ bottom: 20px;
     letter-spacing: 1px;
     text-transform: uppercase;
     margin-bottom: 20px;
+  }
+
+  .checkbox-group {
+    align-items: flex-start;
+  }
+  .checkbox-group input[type="checkbox"] {
+    margin-top: 0.5em;
+  }
+  .checkbox-group label {
+    margin-top: 0;
+    display: inline;
   }
 }
 

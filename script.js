@@ -395,17 +395,19 @@ document.addEventListener('DOMContentLoaded', function() {
   function updateDisplay(selectWrapper, selectedSet, options) {
     const selectedContainer = selectWrapper.querySelector('.selected-projects');
     const selectBtn = selectWrapper.querySelector('.select-btn');
-    
+    const formGroup = selectWrapper.closest('.form-group');
+
     // Clear and update selected tags
     selectedContainer.innerHTML = '';
+    let hasTags = false;
     options.forEach(option => {
       if (option.dataset.value !== 'all' && option.classList.contains('selected')) {
+        hasTags = true;
         const tag = document.createElement('div');
         tag.className = 'selected-project';
         // Only use the project name (text before the comuna span)
         let projectName = option.childNodes[0].textContent.trim();
         tag.innerHTML = `${projectName}<span class="remove">×</span>`;
-        
         tag.querySelector('.remove').addEventListener('click', (e) => {
           e.stopPropagation();
           option.classList.remove('selected');
@@ -414,10 +416,20 @@ document.addEventListener('DOMContentLoaded', function() {
           if (allOption) allOption.classList.remove('selected');
           updateDisplay(selectWrapper, selectedSet, options);
         });
-        
         selectedContainer.appendChild(tag);
       }
     });
+
+    // Force .form-group to auto height if tags are present
+    if (formGroup) {
+      if (hasTags) {
+        formGroup.style.height = 'auto';
+        formGroup.style.minHeight = '42.5px';
+      } else {
+        formGroup.style.height = '';
+        formGroup.style.minHeight = '';
+      }
+    }
 
     // Update button text
     const selectedCount = selectedSet.size;
