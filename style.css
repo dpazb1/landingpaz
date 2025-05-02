@@ -257,6 +257,7 @@ body {
   position: relative;
   display: flex;
   align-items: flex-start;
+  gap: 10px;
 }
 
 .checkbox-group .error-message {
@@ -286,7 +287,7 @@ body {
   height: 20px;
   border: 2px solid #7263ac;
   border-radius: 4px;
-  margin-right: 10px;
+  margin-top: 0.7em;
   position: relative;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -566,12 +567,30 @@ bottom: 20px;
 }
 
 @media (max-width: 480px) {
-  .container {
-    gap: 20px;
+  html, body {
+    height: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
-  
-  .main-content {
-    padding: 0;
+  .main-section {
+    position: static;
+    min-height: 100vh;
+    height: auto;
+  }
+  .container {
+    min-height: 100vh;
+    height: auto;
+    display: block;
+  }
+  .form-container {
+    max-height: none;
+    height: auto;
+    overflow-y: visible;
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 400px;
+    width: 90%;
   }
   
   .footer-logo-container {
@@ -581,12 +600,6 @@ bottom: 20px;
   
   .footer-logo {
     width: 80px;
-  }
-  
-  .form-container {
-    max-height: calc(100vh - 40px);
-    margin: 20px auto;
-    padding: 20px;
   }
 
   /* Mantener el layout del teléfono igual que en desktop */
@@ -618,13 +631,6 @@ bottom: 20px;
     letter-spacing: 1px;
     text-transform: uppercase;
     margin-bottom: 20px;
-  }
-
-  .form-container {
-    margin: 20px auto;
-    padding: 20px;
-    max-width: 400px;
-    width: 90%;
   }
 }
 
