@@ -118,7 +118,7 @@ body {
 }
 
 .form-group:has(.selected-projects:not(:empty)) {
-  height: auto;
+  height: auto !important;
   min-height: 42.5px;
 }
 
@@ -158,9 +158,12 @@ body {
   flex-wrap: wrap;
   gap: 5px;
   padding-top: 8px;
-  height: auto;
+  height: auto !important;
+  min-height: 42.5px;
   position: relative;
   z-index: 1;
+  align-items: flex-start;
+  box-sizing: border-box;
 }
 
 .form-group:has(.selected-projects:not(:empty)) .select-btn {
