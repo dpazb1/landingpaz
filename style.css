@@ -136,9 +136,9 @@ body {
 
 /* Initial state of dropdown button */
 .select-btn {
-  height: 42.5px;
-  min-height: 42.5px;
-  flex-shrink: 0;
+  height: 42.5px !important;
+  min-height: 42.5px !important;
+  flex-shrink: 0 !important;
   width: 100%;
   padding: 0 12px;
   border: 1px solid #ddd;
@@ -588,7 +588,7 @@ bottom: 20px;
     display: block;
   }
   .form-container {
-    max-height: 80vh;
+    max-height: 90svh;
     overflow-y: auto;
     margin: 20px auto;
     padding: 20px;
