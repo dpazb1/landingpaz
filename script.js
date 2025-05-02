@@ -390,7 +390,9 @@ document.addEventListener('DOMContentLoaded', function() {
       if (option.dataset.value !== 'all' && option.classList.contains('selected')) {
         const tag = document.createElement('div');
         tag.className = 'selected-project';
-        tag.innerHTML = `${option.textContent}<span class="remove">×</span>`;
+        // Only use the project name (text before the comuna span)
+        let projectName = option.childNodes[0].textContent.trim();
+        tag.innerHTML = `${projectName}<span class="remove">×</span>`;
         
         tag.querySelector('.remove').addEventListener('click', (e) => {
           e.stopPropagation();
