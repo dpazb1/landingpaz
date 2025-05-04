@@ -1,29 +1,40 @@
+<!-- Estructura principal del landing inmobiliario -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <!-- Metadatos y título -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Aporte Paz 2024 - 10% de tu pie</title>
+  <!-- Hoja de estilos principal -->
   <link rel="stylesheet" href="style.css">
+  <!-- Google Fonts: Ubuntu -->
   <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <!-- Sección de fondo con overlay -->
   <section class="main-section">
     <div class="container">
       <div class="main-content">
+        <!-- Contenedor flotante del formulario -->
         <div class="form-container">
           <h3 class="form-title">Inscríbete aquí</h3>
+          <!-- Formulario de contacto principal -->
           <form id="contactForm" novalidate>
+            <!-- Campo: Nombre -->
             <div class="form-group">
               <input type="text" id="name" class="form-control" placeholder="Nombre *">
               <div class="error-message">Por favor ingresa tu nombre completo</div>
             </div>
+            <!-- Campo: RUT -->
             <div class="form-group">
               <input type="text" id="rut" class="form-control" placeholder="RUT *">
               <div class="error-message">Por favor ingresa un RUT válido (ejemplo: 12.345.678-9)</div>
             </div>
+            <!-- Teléfono con prefijo -->
             <div class="form-group">
               <div class="phone-input-container">
+                <!-- Dropdown de prefijo -->
                 <div class="select-wrapper phone-prefix-wrapper">
                   <div class="select-btn"><span class="select-btn-text">+56 9</span></div>
                   <div class="select-content">
@@ -33,24 +44,29 @@
                     </ul>
                   </div>
                 </div>
+                <!-- Campo: Teléfono -->
                 <input type="tel" id="phone" class="form-control" placeholder="Teléfono *" maxlength="9">
               </div>
               <div class="error-message">Por favor ingresa un número de teléfono válido</div>
             </div>
+            <!-- Campo: Email -->
             <div class="form-group">
               <input type="email" id="email" class="form-control" placeholder="Correo electrónico *">
               <div class="error-message">Por favor ingresa un correo electrónico válido</div>
             </div>
+            <!-- Dropdown de proyectos -->
             <div class="form-group">
               <label>Proyecto de interés *</label>
               <div class="select-wrapper" id="project-select">
-                <div class="select-btn">Selecciona uno o más proyectos</div>
+                <div class="select-btn"><span class="select-btn-text">Selecciona uno o más proyectos</span></div>
                 <div class="select-content">
+                  <!-- Buscador de proyectos -->
                   <div class="search-container">
                     <input type="text" class="search-input" placeholder="Buscar proyecto...">
                   </div>
                   <ul class="options">
                     <li class="option" data-value="all">Todos</li>
+                    <!-- Opciones de proyectos con comuna -->
                     <li class="option" data-value="caiquen">Caiquén <span class="comuna">Estación Central</span></li>
                     <li class="option" data-value="carrion">Carrión <span class="comuna">Independencia</span></li>
                     <li class="option" data-value="carrion2">Carrión 2 <span class="comuna">Independencia</span></li>
@@ -70,14 +86,16 @@
                     <li class="option" data-value="zorzal">Zorzal <span class="comuna">Estación Central</span></li>
                   </ul>
                 </div>
+                <!-- Tags de proyectos seleccionados -->
                 <div class="selected-projects"></div>
               </div>
               <div class="error-message">Por favor selecciona al menos un proyecto</div>
             </div>
+            <!-- Dropdown de tipo de departamento (oculto por defecto) -->
             <div class="form-group" id="room-type-group" style="display: none;">
               <label>Tipo de departamento *</label>
               <div class="select-wrapper" id="room-type-select">
-                <div class="select-btn">Selecciona uno o más tipos</div>
+                <div class="select-btn"><span class="select-btn-text">Selecciona uno o más tipos</span></div>
                 <div class="select-content">
                   <ul class="options">
                     <li class="option" data-value="all">Todos</li>
@@ -87,28 +105,35 @@
                     <li class="option" data-value="3-dorm">3 Dormitorios</li>
                   </ul>
                 </div>
+                <!-- Tags de tipos seleccionados -->
                 <div class="selected-projects"></div>
               </div>
               <div class="error-message">Por favor selecciona al menos un tipo de departamento</div>
             </div>
+            <!-- Checkbox de términos y condiciones -->
             <div class="checkbox-group">
               <input type="checkbox" id="terms">
               <label for="terms">Autorizo a Inmobiliaria PAZ a que me envíe información.</label>
               <div class="error-message error-auth">Por favor acepta los términos y condiciones</div>
             </div>
+            <!-- Botón de envío -->
             <button type="submit" class="btn-submit">Enviar</button>
+            <!-- Texto legal -->
             <p class="legal-text">
               * Consulta bases legales con tu asesor inmobiliario en centro de ventas Las Condes, ubicado en Av. Las Condes 7430 o en cualquiera de nuestras salas de venta. Horario de lunes a viernes 11:00 a 14:00 y de 15:00 a 19:15 hrs. donde se entregará una copia de ellas.
             </p>
           </form>
         </div>
       </div>
+      <!-- Espaciador para el layout -->
       <div class="bottom-spacer"></div>
     </div>
   </section>
+  <!-- Logo del footer -->
   <div class="footer-logo-container">
     <img src="https://landing.paz.cl/images/logo-paz-blanco.svg" alt="Paz Corp Logo" class="footer-logo">
   </div>
+  <!-- Script principal JS -->
   <script src="script.js"></script>
 </body>
 </html>

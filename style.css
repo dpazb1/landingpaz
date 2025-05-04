@@ -1,18 +1,33 @@
+/* =============================
+   Variables de color y diseño
+   ============================= */
 :root {
-  --primary-color: #4a3b89;
-  --accent-color: #ffdd00;
-  --text-color: #333333;
-  --light-gray: #f5f5f5;
-  --dark-gray: #666666;
-  --white: #ffffff;
-  --purple-hover: #5c4ba8;
+  --primary-color: #4a3b89; /* Morado principal para textos, bordes y destacados */
+  --primary-gradient-start: #a18cd1; /* Inicio del gradiente para scrollbar/thumbs */
+  --primary-gradient-end: #6d5bba;   /* Fin del gradiente para scrollbar/thumbs */
+  --accent-color: #ffdd00; /* Amarillo de acento (no usado actualmente) */
+  --text-color: #333333; /* Texto principal */
+  --light-gray: #f5f5f5; /* Fondos claros */
+  --dark-gray: #666666; /* Texto secundario */
+  --white: #ffffff; /* Fondos blancos */
+  --form-bg: rgba(255,255,255,0.75); /* Fondo translúcido del formulario */
+  --form-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Sombra del formulario */
+  --form-shadow-float: 0 8px 32px rgba(74,59,137,0.18), 0 1.5px 8px rgba(74,59,137,0.10); /* Sombra flotante */
+  --scrollbar-bg: #f3f0fa; /* Fondo del scrollbar */
+  --scrollbar-thumb: linear-gradient(135deg, var(--primary-gradient-start) 0%, var(--primary-gradient-end) 100%);
+  --scrollbar-thumb-hover: linear-gradient(135deg, var(--primary-gradient-end) 0%, var(--primary-gradient-start) 100%);
+  --purple-hover: #5c4ba8; /* Morado para hover */
 }
 
+/* =============================
+   Reset y estilos base
+   ============================= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Ubuntu', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 300 !important;
 }
 
 body {
@@ -25,6 +40,9 @@ body {
   font-weight: 300 !important;
 }
 
+/* =============================
+   Layout principal y fondo
+   ============================= */
 .container {
   max-width: 1400px;
   margin: 0 auto;
@@ -44,7 +62,7 @@ body {
   right: 0;
   bottom: 0;
   background: url('bg.png') right center/cover no-repeat;
-  background-color: transparent;
+  background-color: var(--primary-color);
   z-index: 1;
   overflow: hidden;
 }
@@ -60,48 +78,45 @@ body {
   z-index: 2;
 }
 
-.main-content {
-  position: relative;
-  z-index: 3;
-  width: 100%;
-  padding: 0;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  min-height: 100vh;
-}
-
-.footer-logo-container {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 10;
-  padding: 0;
-  margin: 0;
-}
-
+/* =============================
+   Contenedor del formulario flotante
+   ============================= */
 .form-container {
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: var(--form-bg);
+  box-shadow: var(--form-shadow);
   padding: 25px;
   border-radius: 8px;
   width: 400px;
   margin-right: 140px;
-  backdrop-filter: none;
   position: relative;
   z-index: 4;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-height: 90vh;
+  max-height: 700px;
   overflow-y: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-bg) var(--scrollbar-bg);
   margin-top: 20px;
   margin-bottom: 20px;
+  height: 580px;
+  max-height: 580px;
 }
 
+/* Scrollbar personalizado para el formulario */
 .form-container::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  width: 8px;
+  background: var(--scrollbar-bg);
+  border-radius: 6px;
+}
+.form-container::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 6px;
+}
+.form-container::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
 }
 
+/* =============================
+   Títulos y textos
+   ============================= */
 .form-title {
   color: var(--primary-color);
   font-size: 22px;
@@ -112,6 +127,14 @@ body {
   text-transform: uppercase;
 }
 
+.legal-text {
+  font-size: 10px;
+  font-weight: 300 !important;
+}
+
+/* =============================
+   Grupos de campos y entradas
+   ============================= */
 .form-group {
   margin-bottom: 15px;
   position: relative;
@@ -123,43 +146,73 @@ body {
   min-height: 42.5px;
 }
 
-/* Regular input form groups */
 .form-group:not(:has(.select-wrapper)) {
   height: 42.5px;
 }
 
-/* Dropdown container */
+.form-control {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: var(--form-bg);
+  transition: all 0.3s ease;
+  color: var(--primary-color);
+  font-weight: 300 !important;
+}
+
+.form-control::placeholder {
+  color: var(--primary-color);
+  opacity: 0.8;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(74, 59, 137, 0.1);
+}
+
+/* =============================
+   Dropdowns personalizados
+   ============================= */
 .select-wrapper {
   position: relative;
   width: 100%;
 }
 
-/* Initial state of dropdown button */
 .select-btn {
   height: 42.5px !important;
   min-height: 42.5px !important;
   flex-shrink: 0 !important;
+  align-items: center;
+  display: flex;
   width: 100%;
   padding: 0 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: var(--form-bg);
   cursor: pointer;
   text-align: left;
   position: relative;
   font-size: 14px;
   color: var(--primary-color);
-  display: flex;
-  align-items: center;
-  transition: all 0.3s ease;
   font-weight: 300 !important;
+  transition: all 0.3s ease;
 }
 
 .select-btn .select-btn-text {
   opacity: 0.8;
 }
 
-/* Container for selected tags */
+.select-btn::after,
+.phone-prefix-wrapper .select-btn::after {
+  opacity: 0.8;
+  color: var(--primary-color);
+  font-weight: 300;
+}
+
+/* Contenedor de tags seleccionados */
 .selected-projects {
   width: 100%;
   display: flex;
@@ -174,13 +227,7 @@ body {
   box-sizing: border-box;
 }
 
-.form-group:has(.selected-projects:not(:empty)) .select-btn {
-  height: 42.5px;
-  min-height: 42.5px;
-  flex-shrink: 0;
-}
-
-/* Individual tag styling */
+/* Tag individual */
 .selected-project {
   background-color: var(--primary-color);
   color: var(--white);
@@ -202,57 +249,75 @@ body {
   justify-content: center;
 }
 
-/* Dropdown content */
+/* =============================
+   Dropdown: contenido y opciones
+   ============================= */
 .select-content {
   position: absolute;
   width: 100%;
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--form-bg);
   border: 1px solid #ddd;
   border-radius: 4px;
   max-height: 300px;
   overflow-y: auto;
   display: none;
   z-index: 100;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: var(--form-shadow);
   margin-top: 4px;
   scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+  -ms-overflow-style: none; /* IE y Edge */
 }
 
 .select-content::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: none;
 }
 
 .select-wrapper.active .select-content {
   display: block;
 }
 
-/* Error states */
-.form-group.error {
-  margin-bottom: 22px;
+.select-wrapper .option {
+  padding: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  color: var(--dark-gray);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 300 !important;
 }
 
-.form-group.error .select-btn {
-  /* border-color: #e74c3c; */
+.select-wrapper .option .comuna {
+  color: var(--primary-color);
+  font-size: 12px;
+  opacity: 0.8;
+  margin-left: 10px;
+  white-space: nowrap;
+  font-weight: 300 !important;
 }
 
-.error-message {
-  display: none;
-  color: #e74c3c;
-  font-size: 10px;
-  position: absolute;
-  bottom: -17px;
-  left: 0;
+.select-wrapper .option.selected {
+  background-color: rgba(74, 59, 137, 0.85);
+  color: var(--white);
   font-weight: 300;
-  z-index: 1;
-  line-height: 1;
 }
 
-.form-group.error .error-message,
-.checkbox-group.error .error-message {
-  display: block;
+.select-wrapper .option.selected .comuna {
+  color: var(--white);
+  font-weight: 300;
 }
 
+.select-wrapper .option:hover {
+  background-color: rgba(74, 59, 137, 0.1);
+}
+
+.select-wrapper .option.selected::after {
+  display: none;
+}
+
+/* =============================
+   Checkbox y grupo de términos
+   ============================= */
 .checkbox-group {
   padding-top: 8px;
   margin-bottom: 15px;
@@ -263,33 +328,14 @@ body {
   z-index: 10;
 }
 
-.checkbox-group .error-message {
-  display: none;
-  color: #e74c3c;
-  font-size: 10px;
-  position: absolute;
-  bottom: -17px;
-  left: 0;
-  font-weight: 300;
-  z-index: 1;
-  line-height: 1;
-}
-
-.checkbox-group.error {
-  margin-bottom: 22px;
-}
-
-.checkbox-group.error .error-message {
-  display: block;
-}
-
 .checkbox-group input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
   width: 20px;
   height: 20px;
-  border: 2px solid #7263ac;
+  border: 2px solid var(--primary-color);
   border-radius: 4px;
+  margin-right: 10px;
   margin-top: 0;
   position: relative;
   cursor: pointer;
@@ -297,8 +343,22 @@ body {
   z-index: 11;
 }
 
+@media (max-width: 480px) {
+  .form-container {
+    height: 90svh;
+    max-height: 90svh;
+    overflow-y: auto;
+  }
+  .checkbox-group {
+    align-items: flex-start;
+  }
+  .checkbox-group input[type="checkbox"] {
+    margin-top: 0.3em;
+  }
+}
+
 .checkbox-group input[type="checkbox"]:checked {
-  background-color: #7263ac;
+  background-color: var(--primary-color);
 }
 
 .checkbox-group input[type="checkbox"]:checked::after {
@@ -321,12 +381,44 @@ body {
   font-weight: 300 !important;
 }
 
+/* =============================
+   Estados de error y mensajes
+   ============================= */
+.form-group.error {
+  margin-bottom: 22px;
+}
+
+.error-message {
+  display: none;
+  color: #e74c3c;
+  font-size: 10px;
+  position: absolute;
+  bottom: -17px;
+  left: 0;
+  font-weight: 300;
+  z-index: 1;
+  line-height: 1;
+}
+
+.form-group.error .error-message,
+.checkbox-group.error .error-message {
+  display: block;
+}
+
+.checkbox-group.error {
+  margin-bottom: 22px;
+}
+
+.checkbox-group.error .error-message {
+  display: block;
+}
+
 .error-auth {
-bottom: 20px;
+  bottom: 20px;
 }
 
 .success-message {
-  background-color: #7263ac;
+  background-color: var(--primary-color);
   color: white;
   padding: 15px;
   border-radius: 4px;
@@ -341,196 +433,22 @@ bottom: 20px;
   to { opacity: 1; transform: translateY(0); }
 }
 
-
-.form-group label {
-  display: none;
-}
-
-.form-control {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
-  background-color: rgba(255, 255, 255, 0.95);
-  transition: all 0.3s ease;
-  color: var(--primary-color);
-  font-weight: 300 !important;
-}
-
-.form-control::placeholder {
-  color: var(--primary-color);
-  opacity: 0.8;
-}
-
-.form-control:focus {
-  outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(74, 59, 137, 0.1);
-}
-
-.form-group .select-wrapper {
-  height: 42.5px;
-  position: relative;
-}
-
-.form-group .select-wrapper .select-btn {
-  width: 100%;
-  height: 42.5px;
-  padding: 0 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: rgba(255, 255, 255, 0.95);
-  cursor: pointer;
-  text-align: left;
-  position: relative;
-  font-size: 14px;
-  color: var(--primary-color);
-  opacity: 1;
-  display: flex;
-  align-items: center;
-}
-
-.select-wrapper .select-btn:hover,
-.select-wrapper.active .select-btn {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(74, 59, 137, 0.1);
-}
-
-.select-wrapper .select-content {
-  background-color: rgba(255, 255, 255, 0.95);
-  border: 1px solid #ddd;
-}
-
-.select-wrapper .option {
-  padding: 12px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  color: var(--dark-gray);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: 300 !important;
-}
-
-.select-wrapper .option .comuna {
-  color: var(--primary-color);
-  font-size: 12px;
-  opacity: 0.8;
-  margin-left: 10px;
-  white-space: nowrap;
-}
-
-.select-wrapper .option.selected .comuna {
-  color: var(--white);
-}
-
-.select-wrapper .option:hover {
-  background-color: rgba(74, 59, 137, 0.1);
-}
-
-.select-wrapper .option.selected {
-  background-color: rgba(74, 59, 137, 0.85);
-  color: var(--white);
-  font-weight: 100;
-}
-
-.select-wrapper .option.selected::after {
-  display: none;
-}
-
-.btn-submit {
-  background-color: #7263ac;
-  color: var(--white);
-  border: none;
-  padding: 12px 24px;
-  width: 100%;
-  border-radius: 4px;
-  font-weight: 300;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-size: 14px;
-  box-shadow: 0 2px 4px rgba(114, 99, 172, 0.2);
-  margin-top: 5px;
-  margin-bottom: 20px;
-}
-
-.btn-submit:hover {
-  background-color: #5c4ba8;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(114, 99, 172, 0.3);
-}
-
-.legal-text {
-  font-size: 10px;
-  font-weight: 300 !important;
+/* =============================
+   Otros estilos y utilidades
+   ============================= */
+.footer-logo-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
+  padding: 0;
+  margin: 0;
 }
 
 .footer-logo {
   width: 120px;
   height: auto;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-}
-
-.select-wrapper {
-  position: relative;
-}
-
-.select-wrapper .select-btn::after {
-  content: '▼';
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 12px;
-  color: var(--primary-color);
-  opacity: 0.8;
-  font-weight: 300;
-}
-
-.select-wrapper .select-content {
-  position: absolute;
-  width: 100%;
-  background: rgba(255, 255, 255, 1);
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  max-height: 200px;
-  overflow-y: auto;
-  display: none;
-  z-index: 100;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.select-wrapper.active .select-content {
-  display: block;
-}
-
-.select-wrapper .options {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.select-wrapper .option {
-  padding: 8px 12px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.select-wrapper .option:hover {
-  background-color: rgba(74, 59, 137, 0.3);
-}
-
-.select-wrapper .option.selected {
-  background-color: rgba(74, 59, 137, 0.85);
-  color: var(--white);
-  font-weight: 100;
-}
-
-.select-wrapper .option.selected::after {
-  display: none;
 }
 
 .bottom-spacer {
@@ -588,6 +506,7 @@ bottom: 20px;
     display: block;
   }
   .form-container {
+    height: 90svh;
     max-height: 90svh;
     overflow-y: auto;
     margin: 20px auto;
@@ -723,7 +642,7 @@ bottom: 20px;
   padding: 0 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: var(--form-bg);
   cursor: pointer;
   text-align: left;
   position: relative;
@@ -834,7 +753,7 @@ bottom: 20px;
     padding: 0 12px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    background-color: rgba(255, 255, 255, 0.95);
+    background-color: var(--form-bg);
     cursor: pointer;
     text-align: left;
     position: relative;
