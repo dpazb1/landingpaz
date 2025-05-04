@@ -1,34 +1,34 @@
-// =============================
-// Script principal del formulario de landing inmobiliaria
-// =============================
-
 document.addEventListener('DOMContentLoaded', function() {
-  // === Referencias a elementos principales del DOM ===
   const projectSelect = document.getElementById('project-select');
   const roomTypeGroup = document.getElementById('room-type-group');
   const roomTypeSelect = document.getElementById('room-type-select');
   const selectedProjects = new Set();
   const selectedRoomTypes = new Set();
 
-  // === Inputs del formulario ===
+  // Input validation setup
   const nameInput = document.getElementById('name');
   const rutInput = document.getElementById('rut');
   const phoneInput = document.getElementById('phone');
 
-  // === Validación de nombre: solo letras ===
+  // Name validation - only letters
   nameInput.addEventListener('input', function(e) {
     this.value = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúñÑ\s]/g, '');
   });
 
-  // === Función para formatear y validar el RUT chileno ===
+  // RUT validation
   function formatRUT(value) {
-    // Elimina caracteres no válidos y convierte a minúsculas
+    // Remove all non-alphanumeric characters and convert to lowercase
     value = value.replace(/[^\dk]/gi, '').toLowerCase();
+    
+    // If empty, return empty
     if (!value) return '';
+    
+    // Check for 'k' in second to last position and remove it
     if (value.length >= 2 && value.charAt(value.length - 2) === 'k') {
       value = value.slice(0, -2) + value.slice(-1);
     }
-    // Extrae dígito verificador
+    
+    // Extract the verifier digit (last character)
     let verifier = '';
     if (value.endsWith('k')) {
       verifier = 'k';
@@ -37,11 +37,13 @@ document.addEventListener('DOMContentLoaded', function() {
       verifier = value.slice(-1);
       value = value.slice(0, -1);
     }
-    // Limita a 8 dígitos
+    
+    // Limit to 8 digits for the main number
     if (value.length > 8) {
       value = value.slice(0, 8);
     }
-    // Formatea con puntos
+    
+    // Format the main number with dots
     let formattedValue = '';
     for (let i = value.length - 1, j = 0; i >= 0; i--, j++) {
       if (j > 0 && j % 3 === 0) {
@@ -49,19 +51,25 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       formattedValue = value[i] + formattedValue;
     }
-    // Agrega verificador
+    
+    // Add the verifier with a dash
     if (verifier) {
       formattedValue += '-' + verifier;
     }
+    
     return formattedValue;
   }
 
-  // === Validación y formateo en tiempo real del RUT ===
   rutInput.addEventListener('input', function(e) {
     const start = this.selectionStart;
     const oldValue = this.value;
+    
+    // Count actual digits (numbers and k) in the current value, ignoring dots and dashes
     const currentDigitCount = oldValue.replace(/[^\dk]/gi, '').length;
+    
+    // If we're at 9 digits and trying to add more, prevent it
     if (currentDigitCount >= 9) {
+      // If the user is trying to add a character (not delete)
       if (this.value.length > oldValue.length) {
         e.preventDefault();
         this.value = oldValue;
@@ -69,68 +77,87 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
     }
+    
     const newValue = formatRUT(this.value);
+    
+    // Count actual digits (numbers and k), ignoring dots and dashes
     const digitCount = newValue.replace(/[^\dk]/gi, '').length;
+    
+    // Only update if within valid length (8-9 digits) and value has changed
     if (digitCount <= 9 && oldValue !== newValue) {
       this.value = newValue;
-      // Mantiene la posición del cursor
+      
+      // Calculate new cursor position
       if (start === oldValue.length) {
+        // If cursor was at the end, keep it at the end
         this.setSelectionRange(newValue.length, newValue.length);
       } else {
+        // Otherwise, try to maintain the cursor position
         const dotsBeforeOld = (oldValue.slice(0, start).match(/\./g) || []).length;
         const dotsBeforeNew = (newValue.slice(0, start).match(/\./g) || []).length;
         const dashBeforeOld = (oldValue.slice(0, start).match(/-/g) || []).length;
         const dashBeforeNew = (newValue.slice(0, start).match(/-/g) || []).length;
+        
         const newPosition = start + (dotsBeforeNew - dotsBeforeOld) + (dashBeforeNew - dashBeforeOld);
         this.setSelectionRange(newPosition, newPosition);
       }
     } else if (digitCount > 9) {
+      // If we exceed 9 digits, revert to the old value
       this.value = oldValue;
       this.setSelectionRange(start, start);
     }
   });
 
-  // === Validación y envío del formulario ===
+  // Add form validation for RUT
   document.querySelector('form').addEventListener('submit', function(e) {
     e.preventDefault();
-    // Limpia estados de error
+    
+    // Reset all error states
     document.querySelectorAll('.form-group, .checkbox-group').forEach(group => {
         group.classList.remove('error');
     });
+    
     let isValid = true;
-    // Validación de nombre
+
+    // Validate name
     if (!nameInput.value.trim()) {
         nameInput.closest('.form-group').classList.add('error');
         isValid = false;
     }
-    // Validación de RUT
+
+    // Validate RUT
     const rutValue = rutInput.value.replace(/[^\dk]/gi, '').toLowerCase();
     const digitCount = rutValue.length;
+    
     if (digitCount < 8 || digitCount > 9 || (rutValue.includes('k') && rutValue.charAt(rutValue.length - 1) !== 'k')) {
         rutInput.closest('.form-group').classList.add('error');
         isValid = false;
     }
-    // Validación de teléfono
+
+    // Validate phone
     const phoneValue = phoneInput.value.replace(/\s/g, '');
     if (!phoneValue || phoneValue.length !== 8 || !/^\d+$/.test(phoneValue)) {
         phoneInput.closest('.form-group').classList.add('error');
         isValid = false;
     }
-    // Validación de email
+
+    // Validate email
     const emailInput = document.getElementById('email');
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailInput.value.trim() || !emailRegex.test(emailInput.value.trim())) {
         emailInput.closest('.form-group').classList.add('error');
         isValid = false;
     }
-    // Validación de selección de proyecto
+
+    // Validate project selection
     const projectSelect = document.getElementById('project-select');
     const selectedProjects = projectSelect.querySelector('.selected-projects').children.length;
     if (selectedProjects === 0) {
         projectSelect.closest('.form-group').classList.add('error');
         isValid = false;
     }
-    // Validación de tipo de departamento si está visible
+
+    // Validate room type if visible
     const roomTypeGroup = document.getElementById('room-type-group');
     if (roomTypeGroup.style.display !== 'none') {
         const roomTypeSelect = document.getElementById('room-type-select');
@@ -140,42 +167,47 @@ document.addEventListener('DOMContentLoaded', function() {
             isValid = false;
         }
     }
-    // Validación de términos
+
+    // Validate terms
     const termsCheckbox = document.getElementById('terms');
     if (!termsCheckbox.checked) {
         termsCheckbox.closest('.checkbox-group').classList.add('error');
         isValid = false;
     }
-    // Si es válido, muestra mensaje de éxito y resetea
+
     if (isValid) {
+        // Show success message
         const successMessage = document.createElement('div');
         successMessage.className = 'success-message';
         successMessage.textContent = '¡Gracias por contactarnos! Nos pondremos en contacto contigo pronto.';
         this.appendChild(successMessage);
+        
+        // Reset form
         this.reset();
         document.getElementById('project-select').querySelector('.selected-projects').innerHTML = '';
-        document.getElementById('project-select').querySelector('.select-btn').innerHTML = '<span class="select-btn-text">Selecciona uno o más proyectos</span>';
+        document.getElementById('project-select').querySelector('.select-btn').textContent = 'Selecciona uno o más proyectos';
         document.getElementById('room-type-select').querySelector('.selected-projects').innerHTML = '';
-        document.getElementById('room-type-select').querySelector('.select-btn').innerHTML = '<span class="select-btn-text">Selecciona uno o más tipos</span>';
+        document.getElementById('room-type-select').querySelector('.select-btn').textContent = 'Selecciona uno o más tipos';
+        
+        // Remove success message after 5 seconds
         setTimeout(() => {
             successMessage.remove();
         }, 5000);
     }
   });
 
-  // === Lógica para el prefijo del teléfono ===
+  // Phone number validation with prefix
   let lastPhoneValue = '';
   const prefixWrapper = document.querySelector('.phone-prefix-wrapper');
   const prefixBtn = prefixWrapper.querySelector('.select-btn');
   const prefixOptions = prefixWrapper.querySelectorAll('.option');
-  let selectedPrefix = '569'; // Prefijo por defecto
+  let selectedPrefix = '569'; // Default prefix
 
-  // Mostrar/ocultar el dropdown de prefijo
+  // Handle prefix selection
   prefixBtn.addEventListener('click', () => {
     prefixWrapper.classList.toggle('active');
   });
 
-  // Selección de prefijo
   prefixOptions.forEach(option => {
     option.addEventListener('click', () => {
       selectedPrefix = option.dataset.value;
@@ -184,53 +216,66 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Cierra el dropdown si se hace click fuera
   document.addEventListener('click', (e) => {
     if (!prefixWrapper.contains(e.target)) {
       prefixWrapper.classList.remove('active');
     }
   });
 
-  // Formatea el número de teléfono en tiempo real
   function formatPhoneNumber(value) {
+    // Remove all non-numeric characters
     value = value.replace(/[^0-9]/g, '');
+    
+    // Limit to 8 digits
     if (value.length > 8) {
       value = value.substring(0, 8);
     }
+    
+    // Format as XXXX XXXX
     if (value.length > 4) {
       value = value.substring(0, 4) + ' ' + value.substring(4);
     }
+    
     return value;
   }
 
   phoneInput.addEventListener('input', function(e) {
+    // Get the current cursor position
     const cursorPosition = this.selectionStart;
+    
+    // Format the number
     let formattedValue = formatPhoneNumber(this.value);
+    
+    // Only update if the value has actually changed and is different from the last value
     if (this.value !== formattedValue && lastPhoneValue !== formattedValue) {
       lastPhoneValue = formattedValue;
       this.value = formattedValue;
+      
+      // Calculate new cursor position
       let newCursorPosition = cursorPosition;
       if (cursorPosition === 5 && formattedValue.length > 4) {
-        newCursorPosition = 6;
+        newCursorPosition = 6; // Move cursor after the space
       } else if (cursorPosition > 4 && formattedValue.length > 4) {
-        newCursorPosition = cursorPosition + 1;
+        newCursorPosition = cursorPosition + 1; // Adjust for the space
       }
+      
+      // Restore cursor position
       setTimeout(() => {
         this.setSelectionRange(newCursorPosition, newCursorPosition);
       }, 0);
     }
   });
 
-  // Al enviar el formulario, muestra el número completo en consola (puedes enviar al backend aquí)
+  // Handle form submission to add the prefix
   document.querySelector('form').addEventListener('submit', function(e) {
     const phoneValue = phoneInput.value.replace(/[^0-9]/g, '');
     if (phoneValue.length === 8) {
       const fullPhoneNumber = selectedPrefix + phoneValue;
+      // You can store this value or send it to your backend
       console.log('Full phone number:', fullPhoneNumber);
     }
   });
 
-  // === Dropdowns personalizados para proyectos y tipos ===
   function setupSelect(selectWrapper) {
     const selectBtn = selectWrapper.querySelector('.select-btn');
     const selectContent = selectWrapper.querySelector('.select-content');
@@ -239,7 +284,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const isProjectSelect = selectWrapper.id === 'project-select';
     const selectedSet = isProjectSelect ? selectedProjects : selectedRoomTypes;
 
-    // Búsqueda en el dropdown de proyectos
+    // Setup search functionality for project select only
     if (isProjectSelect) {
       const searchInput = selectWrapper.querySelector('.search-input');
       if (searchInput) {
@@ -254,16 +299,17 @@ document.addEventListener('DOMContentLoaded', function() {
             option.style.display = text.includes(searchTerm) ? '' : 'none';
           });
         });
-        // Evita que se cierre el dropdown al hacer click en el buscador
+
+        // Prevent dropdown from closing when clicking search
         searchInput.addEventListener('click', (e) => {
           e.stopPropagation();
         });
       }
     }
 
-    // Abre/cierra el dropdown
     selectBtn.addEventListener('click', () => {
       selectWrapper.classList.toggle('active');
+      // Focus search input when opening project dropdown
       if (isProjectSelect) {
         const searchInput = selectWrapper.querySelector('.search-input');
         if (searchInput && selectWrapper.classList.contains('active')) {
@@ -272,23 +318,24 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
 
-    // Lógica para seleccionar "Todos"
+    // Handle "Todos" option
     const allOption = options.find(opt => opt.dataset.value === 'all');
     if (allOption) {
       allOption.addEventListener('click', () => {
         const regularOptions = options.filter(opt => opt.dataset.value !== 'all');
         const isAllSelected = allOption.classList.contains('selected');
+
         if (isAllSelected) {
-          // Deselecciona todo
+          // Deselect everything
           regularOptions.forEach(opt => {
             opt.classList.remove('selected');
             selectedSet.delete(opt.dataset.value);
           });
           allOption.classList.remove('selected');
         } else {
-          // Selecciona todo
+          // Select all regular options
           regularOptions.forEach(opt => {
-            if (opt.style.display !== 'none') {
+            if (opt.style.display !== 'none') { // Only select visible options
               opt.classList.add('selected');
               selectedSet.add(opt.dataset.value);
             }
@@ -299,11 +346,12 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
 
-    // Lógica para seleccionar/deseleccionar opciones individuales
+    // Handle individual options
     options.forEach(option => {
       if (option.dataset.value !== 'all') {
         option.addEventListener('click', () => {
           const isSelected = option.classList.contains('selected');
+          
           if (isSelected) {
             option.classList.remove('selected');
             selectedSet.delete(option.dataset.value);
@@ -311,42 +359,45 @@ document.addEventListener('DOMContentLoaded', function() {
           } else {
             option.classList.add('selected');
             selectedSet.add(option.dataset.value);
+            
+            // Check if all regular options are selected
             const regularOptions = options.filter(opt => opt.dataset.value !== 'all');
             const allRegularSelected = regularOptions.every(opt => opt.classList.contains('selected'));
             if (allRegularSelected && allOption) {
               allOption.classList.add('selected');
             }
           }
+          
           updateDisplay(selectWrapper, selectedSet, options);
         });
       }
     });
 
-    // Cierra el dropdown si se hace click fuera
     document.addEventListener('click', (e) => {
       if (!selectWrapper.contains(e.target)) {
         selectWrapper.classList.remove('active');
       }
     });
 
-    // Texto inicial de los botones
+    // For project select
     if (isProjectSelect) {
       selectBtn.innerHTML = '<span class="select-btn-text">Selecciona uno o más proyectos</span>';
     } else {
       selectBtn.innerHTML = '<span class="select-btn-text">Selecciona uno o más tipos</span>';
     }
-    // Para el prefijo
+
+    // In setupSelect, update the initial button text for prefix select as well
     if (selectWrapper.classList.contains('phone-prefix-wrapper')) {
       selectBtn.innerHTML = '<span class="select-btn-text">+56 9</span>';
     }
   }
 
-  // === Actualiza la visualización de los tags seleccionados y el botón ===
   function updateDisplay(selectWrapper, selectedSet, options) {
     const selectedContainer = selectWrapper.querySelector('.selected-projects');
     const selectBtn = selectWrapper.querySelector('.select-btn');
     const formGroup = selectWrapper.closest('.form-group');
-    // Limpia y agrega los tags
+
+    // Clear and update selected tags
     selectedContainer.innerHTML = '';
     let hasTags = false;
     options.forEach(option => {
@@ -354,6 +405,7 @@ document.addEventListener('DOMContentLoaded', function() {
         hasTags = true;
         const tag = document.createElement('div');
         tag.className = 'selected-project';
+        // Only use the project name (text before the comuna span)
         let projectName = option.childNodes[0].textContent.trim();
         tag.innerHTML = `${projectName}<span class="remove">×</span>`;
         tag.querySelector('.remove').addEventListener('click', (e) => {
@@ -367,7 +419,8 @@ document.addEventListener('DOMContentLoaded', function() {
         selectedContainer.appendChild(tag);
       }
     });
-    // Fuerza el alto del form-group si hay tags
+
+    // Force .form-group to auto height if tags are present
     if (formGroup) {
       if (hasTags) {
         formGroup.style.height = 'auto';
@@ -377,38 +430,38 @@ document.addEventListener('DOMContentLoaded', function() {
         formGroup.style.minHeight = '';
       }
     }
-    // Actualiza el texto del botón
+
+    // Update button text
     const selectedCount = selectedSet.size;
     selectBtn.innerHTML = `<span class="select-btn-text">${selectedCount > 0 ? `${selectedCount} seleccionados` : 'Selecciona uno o más'}</span>`;
-    // Muestra/oculta el grupo de tipos según selección de proyecto
+
+    // Show/hide room type group for project select
     if (selectWrapper.id === 'project-select') {
       roomTypeGroup.style.display = selectedCount > 0 ? 'block' : 'none';
     }
   }
 
-  // Inicializa los dropdowns personalizados
   setupSelect(projectSelect);
   setupSelect(roomTypeSelect);
 });
 
-// === Limpia errores al escribir o cambiar selección ===
+// Add input event listeners to clear error states
 document.querySelectorAll('input, select').forEach(input => {
     input.addEventListener('input', function() {
         this.closest('.form-group, .checkbox-group')?.classList.remove('error');
     });
 });
 
+// Add change event listeners for checkboxes
 document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
     checkbox.addEventListener('change', function() {
         this.closest('.checkbox-group')?.classList.remove('error');
     });
 });
 
+// Add change event listeners for project and room type selects
 document.querySelectorAll('.select-wrapper').forEach(select => {
     select.addEventListener('click', function() {
         this.closest('.form-group')?.classList.remove('error');
     });
-});
-// =============================
-// Fin del script principal
-// ============================= 
+}); 
