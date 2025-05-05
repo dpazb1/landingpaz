@@ -318,13 +318,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     selectBtn.addEventListener('click', () => {
       selectWrapper.classList.toggle('active');
-      // On mobile, when opening the project dropdown for the first time, auto-scroll to bottom to show first 3 options
+      // On mobile, when opening the project dropdown for the first time, auto-scroll the form to the bottom so the dropdown is fully visible
       if (selectWrapper.id === 'project-select' && window.innerWidth <= 950 && selectWrapper.classList.contains('active')) {
-        const selectContent = selectWrapper.querySelector('.select-content');
-        if (selectContent && !selectContent.dataset.scrolled) {
+        const formContainer = selectWrapper.closest('.form-container');
+        if (formContainer && !selectWrapper.dataset.formScrolled) {
           setTimeout(() => {
-            selectContent.scrollTop = selectContent.scrollHeight;
-            selectContent.dataset.scrolled = 'true';
+            formContainer.scrollTo({ top: formContainer.scrollHeight, behavior: 'smooth' });
+            selectWrapper.dataset.formScrolled = 'true';
           }, 80);
         }
       }
