@@ -1098,6 +1098,8 @@ input:-webkit-autofill:active{
   }
 
   .promo-mobile-text {
+    padding: 10px 10px 10px 10px;
+    padding-bottom: 0px;
     margin-top: 80px;
     margin-bottom: 0px;
     margin-left: auto;
