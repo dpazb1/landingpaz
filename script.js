@@ -318,13 +318,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     selectBtn.addEventListener('click', () => {
       selectWrapper.classList.toggle('active');
-      // Do NOT auto-focus the search input anymore
-      // if (isProjectSelect) {
-      //   const searchInput = selectWrapper.querySelector('.search-input');
-      //   if (searchInput && selectWrapper.classList.contains('active')) {
-      //     searchInput.focus();
-      //   }
-      // }
+      // On mobile, when opening the project dropdown for the first time, auto-scroll to bottom to show first 3 options
+      if (selectWrapper.id === 'project-select' && window.innerWidth <= 950 && selectWrapper.classList.contains('active')) {
+        const selectContent = selectWrapper.querySelector('.select-content');
+        if (selectContent && !selectContent.dataset.scrolled) {
+          setTimeout(() => {
+            selectContent.scrollTop = selectContent.scrollHeight;
+            selectContent.dataset.scrolled = 'true';
+          }, 80);
+        }
+      }
     });
 
     // Handle "Todos" option

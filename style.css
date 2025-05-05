@@ -104,28 +104,33 @@ body {
   max-height: 700px;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgba(74, 59, 137, 0.6) transparent;
+  scrollbar-color: var(--primary-gradient-start) var(--scrollbar-bg, #e5e5f7);
   margin-top: 20px;
   margin-bottom: 20px;
   height: 580px;
   max-height: 580px;
 }
 
-.form-container::-webkit-scrollbar {
-  width: 5px;
+.form-container::-webkit-scrollbar,
+.select-content::-webkit-scrollbar {
+  width: 6px;
+  background: var(--scrollbar-bg, #e5e5f7);
 }
 
 .form-container::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.form-container::-webkit-scrollbar-thumb {
-  background: rgba(74, 59, 137, 0.6);
-  border-radius: 3px;
+.form-container::-webkit-scrollbar-thumb,
+.select-content::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
+  border-radius: 4px;
+  border: 1px solid var(--primary-color);
 }
 
-.form-container::-webkit-scrollbar-thumb:hover {
-  background: rgba(92, 75, 168, 0.8);
+.form-container::-webkit-scrollbar-thumb:hover,
+.select-content::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, var(--primary-gradient-end), var(--primary-gradient-start));
 }
 
 .form-title {
@@ -242,7 +247,7 @@ body {
   box-shadow: var(--form-shadow);
   margin-top: 4px;
   scrollbar-width: thin;
-  scrollbar-color: rgba(74, 59, 137, 0.6) transparent;
+  scrollbar-color: var(--primary-gradient-start) var(--scrollbar-bg, #e5e5f7);
   -ms-overflow-style: auto;
 }
 
