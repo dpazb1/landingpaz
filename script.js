@@ -176,30 +176,21 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if (isValid) {
-        // Show success message
-        const successMessage = document.createElement('div');
-        successMessage.className = 'success-message';
-        successMessage.textContent = '¡Gracias por contactarnos! Nos pondremos en contacto contigo pronto.';
-        // Remove all form content except the success message
-        const form = this;
-        // Remove all children of the form
-        while (form.firstChild) {
-          form.removeChild(form.firstChild);
-        }
-        // Append the success message
-        form.appendChild(successMessage);
-        // Scroll the form container to the bottom to show the success message
-        const formContainer = form.closest('.form-container');
+        const formContainer = this.closest('.form-container');
         if (formContainer) {
-          setTimeout(() => {
-            formContainer.scrollTo({ top: formContainer.scrollHeight, behavior: 'smooth' });
-            // Adjust the form container size to fit the success message, but a little bigger
+            formContainer.innerHTML = `
+                <h3 class="form-title">Inscríbete aquí</h3>
+                <div class="success-message">
+                    ¡Gracias por contactarnos! Nos pondremos en contacto contigo pronto.
+                </div>
+            `;
             formContainer.style.height = 'auto';
             formContainer.style.maxHeight = 'none';
             formContainer.style.minHeight = '200px';
-          }, 100); // Wait for DOM update
+            setTimeout(() => {
+                formContainer.scrollTo({ top: formContainer.scrollHeight, behavior: 'smooth' });
+            }, 100);
         }
-        // No need to reset or remove the message anymore
         return;
     }
     // If there are errors, scroll to the first error field inside the form
@@ -327,13 +318,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     selectBtn.addEventListener('click', () => {
       selectWrapper.classList.toggle('active');
-      // Focus search input when opening project dropdown
-      if (isProjectSelect) {
-        const searchInput = selectWrapper.querySelector('.search-input');
-        if (searchInput && selectWrapper.classList.contains('active')) {
-          searchInput.focus();
-        }
-      }
+      // Do NOT auto-focus the search input anymore
+      // if (isProjectSelect) {
+      //   const searchInput = selectWrapper.querySelector('.search-input');
+      //   if (searchInput && selectWrapper.classList.contains('active')) {
+      //     searchInput.focus();
+      //   }
+      // }
     });
 
     // Handle "Todos" option
