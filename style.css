@@ -1,24 +1,28 @@
 :root {
-  --primary-color: #4a3b89; /* Main purple for text, borders, highlights */
-  --primary-gradient-start: #a18cd1; /* Gradient start for scrollbar/thumbs */
-  --primary-gradient-end: #6d5bba;   /* Gradient end for scrollbar/thumbs */
-  --text-color: #333333; /* Main text */
-  --light-gray: #f5f5f5; /* Light backgrounds */
-  --dark-gray: #666666; /* Secondary text */
-  --white: #ffffff; /* White backgrounds */
-  --form-bg: rgba(255,255,255,0.75); /* Form floating background */
-  --form-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Form shadow */
-  --form-shadow-float: 0 8px 32px rgba(74,59,137,0.18), 0 1.5px 8px rgba(74,59,137,0.10); /* Floating effect shadow */
-  --scrollbar-bg: rgba(255, 255, 255, 0.2);
-  --scrollbar-thumb: linear-gradient(135deg, var(--primary-gradient-start) 0%, var(--primary-gradient-end) 100%);
-  --scrollbar-thumb-hover: linear-gradient(135deg, var(--primary-gradient-end) 0%, var(--primary-gradient-start) 100%);
-  --purple-hover: #5c4ba8;
-  --danger: #e74c3c;
-  --danger-alt: #ff4444;
-  --input-border: #ddd;
-  --input-border-light: #eee;
-  --accent: #7263ac;
+  --primary-color: #4a3b89; /* Morado principal para textos, bordes y destacados */
+  --primary-gradient-start: #a18cd1; /* Inicio del gradiente para scrollbar/thumbs */
+  --primary-gradient-end: #6d5bba;   /* Fin del gradiente para scrollbar/thumbs */
+  --text-color: #333333; /* Color principal de texto */
+  --light-gray: #f5f5f5; /* Fondos claros */
+  --dark-gray: #666666; /* Texto secundario */
+  --white: #ffffff; /* Fondos blancos */
+  --form-bg: rgba(255,255,255,0.75); /* Fondo flotante del formulario */
+  --form-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Sombra del formulario */
+  --form-shadow-float: 0 8px 32px rgba(74,59,137,0.18), 0 1.5px 8px rgba(74,59,137,0.10); /* Sombra flotante */
+  --scrollbar-bg: rgba(255, 255, 255, 0.2); /* Fondo del scrollbar */
+  --scrollbar-thumb: linear-gradient(135deg, var(--primary-gradient-start) 0%, var(--primary-gradient-end) 100%); /* Gradiente del thumb */
+  --scrollbar-thumb-hover: linear-gradient(135deg, var(--primary-gradient-end) 0%, var(--primary-gradient-start) 100%); /* Gradiente hover del thumb */
+  --purple-hover: #5c4ba8; /* Morado hover */
+  --danger: #e74c3c; /* Rojo para errores */
+  --danger-alt: #ff4444; /* Rojo alternativo */
+  --input-border: #ddd; /* Borde de inputs */
+  --input-border-light: #eee; /* Borde claro */
+  --accent: #7263ac; /* Morado acento */
 }
+
+/* ==============================
+   Reset y estilos base
+   ============================== */
 
 * {
   margin: 0;
@@ -48,6 +52,10 @@ body {
   justify-content: space-between;
   gap: 20px;
 }
+
+/* ==============================
+   Fondo principal y sección principal
+   ============================== */
 
 .main-section {
   position: fixed;
@@ -92,6 +100,10 @@ body {
   margin: 0;
 }
 
+/* ==============================
+   Contenedor del formulario flotante
+   ============================== */
+
 .form-container {
   background-color: var(--form-bg);
   box-shadow: var(--form-shadow);
@@ -111,6 +123,8 @@ body {
   max-height: 580px;
 }
 
+/* Scrollbar personalizado para el formulario */
+
 .form-container::-webkit-scrollbar {
   width: 5px;
 }
@@ -128,6 +142,10 @@ body {
   background: rgba(92, 75, 168, 0.8);
 }
 
+/* ==============================
+   Título del formulario
+   ============================== */
+
 .form-title {
   color: var(--primary-color);
   font-size: 22px;
@@ -137,6 +155,10 @@ body {
   letter-spacing: 1px;
   text-transform: uppercase;
 }
+
+/* ==============================
+   Grupos de campos del formulario
+   ============================== */
 
 .form-group {
   margin-bottom: 15px;
@@ -149,18 +171,19 @@ body {
   min-height: 42.5px;
 }
 
-/* Regular input form groups */
 .form-group:not(:has(.select-wrapper)) {
   height: 42.5px;
 }
 
-/* Dropdown container */
+/* ==============================
+   Dropdowns personalizados (proyectos, tipos, prefijo)
+   ============================== */
+
 .select-wrapper {
   position: relative;
   width: 100%;
 }
 
-/* Initial state of dropdown button */
 .select-btn {
   height: 42.5px !important;
   min-height: 42.5px !important;
@@ -185,7 +208,6 @@ body {
   opacity: 0.8;
 }
 
-/* Container for selected tags */
 .selected-projects {
   width: 100%;
   display: flex;
@@ -206,7 +228,6 @@ body {
   flex-shrink: 0;
 }
 
-/* Individual tag styling */
 .selected-project {
   background-color: var(--primary-color);
   color: var(--white);
@@ -228,7 +249,10 @@ body {
   justify-content: center;
 }
 
-/* Dropdown content */
+/* ==============================
+   Contenido del dropdown (opciones)
+   ============================== */
+
 .select-content {
   position: absolute;
   width: 100%;
@@ -267,13 +291,15 @@ body {
   display: block;
 }
 
-/* Error states */
+/* ==============================
+   Estados de error en el formulario
+   ============================== */
+
 .form-group.error {
   margin-bottom: 22px;
 }
 
 .form-group.error .select-btn {
-  /* border-color: var(--danger); */
   background-color: var(--white) !important;
 }
 
@@ -293,6 +319,10 @@ body {
 .checkbox-group.error .error-message {
   display: block;
 }
+
+/* ==============================
+   Checkbox personalizado
+   ============================== */
 
 .checkbox-group {
   padding-top: 8px;
@@ -366,6 +396,10 @@ body {
 bottom: 20px;
 }
 
+/* ==============================
+   Mensaje de éxito
+   ============================== */
+
 .success-message {
   background-color: var(--accent);
   color: var(--white);
@@ -382,6 +416,9 @@ bottom: 20px;
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* ==============================
+   Inputs del formulario
+   ============================== */
 
 .form-group label {
   display: none;
@@ -480,6 +517,10 @@ bottom: 20px;
   display: none;
 }
 
+/* ==============================
+   Botón de envío
+   ============================== */
+
 .btn-submit {
   background-color: var(--accent);
   color: var(--white);
@@ -514,6 +555,10 @@ bottom: 20px;
   height: auto;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
+
+/* ==============================
+   Flecha de los dropdowns
+   ============================== */
 
 .select-wrapper {
   position: relative;
@@ -579,6 +624,10 @@ bottom: 20px;
   width: 100%;
 }
 
+/* ==============================
+   Media queries y responsividad
+   ============================== */
+
 @media (max-width: 480px) {
   html, body {
     height: 100%;
@@ -625,7 +674,6 @@ bottom: 20px;
     width: 80px;
   }
 
-  /* Mantener el layout del teléfono igual que en desktop */
   .phone-input-container {
     flex-direction: row;
     height: 42.5px;
@@ -668,6 +716,9 @@ bottom: 20px;
   }
 }
 
+/* ==============================
+   Contenedor de búsqueda en dropdowns
+   ============================== */
 .search-container {
   padding: 10px;
   border-bottom: 1px solid var(--input-border-light);
@@ -677,6 +728,9 @@ bottom: 20px;
   z-index: 1;
 }
 
+/* ==============================
+   Input de búsqueda en dropdowns
+   ============================== */
 .search-input {
   width: 100%;
   padding: 8px 12px;
@@ -718,6 +772,9 @@ bottom: 20px;
   color: var(--primary-color);
 }
 
+/* ==============================
+   Contenedor de input telefónico
+   ============================== */
 .phone-input-container {
   display: flex;
   align-items: center;
@@ -726,6 +783,9 @@ bottom: 20px;
   height: 42.5px;
 }
 
+/* ==============================
+   Wrapper del prefijo telefónico
+   ============================== */
 .phone-prefix-wrapper {
   width: 85px;
   height: 100%;
@@ -874,6 +934,9 @@ bottom: 20px;
     box-shadow: 0 0 0 2px rgba(74, 59, 137, 0.1);
 }
 
+/* ==============================
+   Estilos para autofill de inputs
+   ============================== */
 input:-webkit-autofill,
 input:-webkit-autofill:hover, 
 input:-webkit-autofill:focus, 
@@ -882,6 +945,9 @@ input:-webkit-autofill:active{
     box-shadow: inset 0 0 20px 20px var(--white);
 }
 
+/* ==============================
+   Hover states para selectores específicos
+   ============================== */
 #project-select .select-btn:hover,
 #project-select.active .select-btn,
 #room-type-select .select-btn:hover,
@@ -890,21 +956,32 @@ input:-webkit-autofill:active{
     box-shadow: 0 0 0 2px rgba(74, 59, 137, 0.1);
 }
 
-/* Ensure the comuna stays visible when option is hovered */
+/* ==============================
+   Hover state para comuna en opciones
+   ============================== */
 .select-wrapper .option:hover .comuna {
   opacity: 1;
 }
 
+/* ==============================
+   Estados de error para selectores
+   ============================== */
 .form-group.error .select-btn,
 .select-wrapper.error .select-btn,
 .form-group.error .form-control {
   background-color: var(--white) !important;
 }
 
+/* ==============================
+   Texto promocional móvil
+   ============================== */
 .promo-mobile-text {
   display: none;
 }
 
+/* ==============================
+   Media queries para tablets y móviles
+   ============================== */
 @media (max-width: 950px) {
   .main-content {
     flex-direction: column;
@@ -958,4 +1035,11 @@ input:-webkit-autofill:active{
     width: 90%;
     max-width: 400px;
   }
+}
+
+/* ==============================
+   Altura máxima para selector de tipos de habitación
+   ============================== */
+#room-type-select .select-content {
+  max-height: 350px;
 } 

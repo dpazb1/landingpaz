@@ -1,34 +1,32 @@
+// Esperar a que el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', function() {
-  const projectSelect = document.getElementById('project-select');
-  const roomTypeGroup = document.getElementById('room-type-group');
-  const roomTypeSelect = document.getElementById('room-type-select');
-  const selectedProjects = new Set();
-  const selectedRoomTypes = new Set();
+  // Referencias a los selectores y grupos principales del formulario
+  const projectSelect = document.getElementById('project-select'); // Dropdown de proyectos
+  const roomTypeGroup = document.getElementById('room-type-group'); // Grupo de tipos de departamento
+  const roomTypeSelect = document.getElementById('room-type-select'); // Dropdown de tipos de departamento
+  const selectedProjects = new Set(); // Proyectos seleccionados
+  const selectedRoomTypes = new Set(); // Tipos seleccionados
 
-  // Input validation setup
-  const nameInput = document.getElementById('name');
-  const rutInput = document.getElementById('rut');
-  const phoneInput = document.getElementById('phone');
+  // Referencias a los inputs principales
+  const nameInput = document.getElementById('name'); // Input de nombre
+  const rutInput = document.getElementById('rut'); // Input de RUT
+  const phoneInput = document.getElementById('phone'); // Input de teléfono
 
-  // Name validation - only letters
+  // Validación de nombre: solo letras
   nameInput.addEventListener('input', function(e) {
     this.value = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúñÑ\s]/g, '');
   });
 
-  // RUT validation
+  // Función para formatear el RUT chileno
   function formatRUT(value) {
-    // Remove all non-alphanumeric characters and convert to lowercase
+    // Eliminar caracteres no válidos y pasar a minúsculas
     value = value.replace(/[^\dk]/gi, '').toLowerCase();
-    
-    // If empty, return empty
     if (!value) return '';
-    
-    // Check for 'k' in second to last position and remove it
+    // Si hay una 'k' antes del dígito verificador, eliminarla
     if (value.length >= 2 && value.charAt(value.length - 2) === 'k') {
       value = value.slice(0, -2) + value.slice(-1);
     }
-    
-    // Extract the verifier digit (last character)
+    // Extraer dígito verificador
     let verifier = '';
     if (value.endsWith('k')) {
       verifier = 'k';
@@ -37,13 +35,11 @@ document.addEventListener('DOMContentLoaded', function() {
       verifier = value.slice(-1);
       value = value.slice(0, -1);
     }
-    
-    // Limit to 8 digits for the main number
+    // Limitar a 8 dígitos
     if (value.length > 8) {
       value = value.slice(0, 8);
     }
-    
-    // Format the main number with dots
+    // Formatear con puntos
     let formattedValue = '';
     for (let i = value.length - 1, j = 0; i >= 0; i--, j++) {
       if (j > 0 && j % 3 === 0) {
@@ -51,25 +47,21 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       formattedValue = value[i] + formattedValue;
     }
-    
-    // Add the verifier with a dash
+    // Agregar guion y dígito verificador
     if (verifier) {
       formattedValue += '-' + verifier;
     }
-    
     return formattedValue;
   }
 
+  // Validación y formateo en tiempo real del RUT
   rutInput.addEventListener('input', function(e) {
     const start = this.selectionStart;
     const oldValue = this.value;
-    
-    // Count actual digits (numbers and k) in the current value, ignoring dots and dashes
+    // Contar dígitos válidos
     const currentDigitCount = oldValue.replace(/[^\dk]/gi, '').length;
-    
-    // If we're at 9 digits and trying to add more, prevent it
+    // Prevenir más de 9 dígitos
     if (currentDigitCount >= 9) {
-      // If the user is trying to add a character (not delete)
       if (this.value.length > oldValue.length) {
         e.preventDefault();
         this.value = oldValue;
@@ -77,87 +69,69 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
     }
-    
     const newValue = formatRUT(this.value);
-    
-    // Count actual digits (numbers and k), ignoring dots and dashes
     const digitCount = newValue.replace(/[^\dk]/gi, '').length;
-    
-    // Only update if within valid length (8-9 digits) and value has changed
+    // Actualizar si es válido
     if (digitCount <= 9 && oldValue !== newValue) {
       this.value = newValue;
-      
-      // Calculate new cursor position
+      // Mantener posición del cursor
       if (start === oldValue.length) {
-        // If cursor was at the end, keep it at the end
         this.setSelectionRange(newValue.length, newValue.length);
       } else {
-        // Otherwise, try to maintain the cursor position
         const dotsBeforeOld = (oldValue.slice(0, start).match(/\./g) || []).length;
         const dotsBeforeNew = (newValue.slice(0, start).match(/\./g) || []).length;
         const dashBeforeOld = (oldValue.slice(0, start).match(/-/g) || []).length;
         const dashBeforeNew = (newValue.slice(0, start).match(/-/g) || []).length;
-        
         const newPosition = start + (dotsBeforeNew - dotsBeforeOld) + (dashBeforeNew - dashBeforeOld);
         this.setSelectionRange(newPosition, newPosition);
       }
     } else if (digitCount > 9) {
-      // If we exceed 9 digits, revert to the old value
       this.value = oldValue;
       this.setSelectionRange(start, start);
     }
   });
 
-  // Add form validation for RUT
+  // Validación y envío del formulario
   document.querySelector('form').addEventListener('submit', function(e) {
     e.preventDefault();
-    
-    // Reset all error states
+    // Limpiar errores previos
     document.querySelectorAll('.form-group, .checkbox-group').forEach(group => {
         group.classList.remove('error');
     });
-    
     let isValid = true;
-
-    // Validate name
+    // Validar nombre
     if (!nameInput.value.trim()) {
         nameInput.closest('.form-group').classList.add('error');
         isValid = false;
     }
-
-    // Validate RUT
+    // Validar RUT
     const rutValue = rutInput.value.replace(/[^\dk]/gi, '').toLowerCase();
     const digitCount = rutValue.length;
-    
     if (digitCount < 8 || digitCount > 9 || (rutValue.includes('k') && rutValue.charAt(rutValue.length - 1) !== 'k')) {
         rutInput.closest('.form-group').classList.add('error');
         isValid = false;
     }
-
-    // Validate phone
+    // Validar teléfono
     const phoneValue = phoneInput.value.replace(/\s/g, '');
     if (!phoneValue || phoneValue.length !== 8 || !/^\d+$/.test(phoneValue)) {
         phoneInput.closest('.form-group').classList.add('error');
         isValid = false;
     }
-
-    // Validate email
+    // Validar email
     const emailInput = document.getElementById('email');
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailInput.value.trim() || !emailRegex.test(emailInput.value.trim())) {
         emailInput.closest('.form-group').classList.add('error');
         isValid = false;
     }
-
-    // Validate project selection
+    // Validar selección de proyecto
     const projectSelect = document.getElementById('project-select');
     const selectedProjects = projectSelect.querySelector('.selected-projects').children.length;
     if (selectedProjects === 0) {
         projectSelect.closest('.form-group').classList.add('error');
         isValid = false;
     }
-
-    // Validate room type if visible
+    // Validar tipo de departamento si corresponde
     const roomTypeGroup = document.getElementById('room-type-group');
     if (roomTypeGroup.style.display !== 'none') {
         const roomTypeSelect = document.getElementById('room-type-select');
@@ -167,14 +141,13 @@ document.addEventListener('DOMContentLoaded', function() {
             isValid = false;
         }
     }
-
-    // Validate terms
+    // Validar términos y condiciones
     const termsCheckbox = document.getElementById('terms');
     if (!termsCheckbox.checked) {
         termsCheckbox.closest('.checkbox-group').classList.add('error');
         isValid = false;
     }
-
+    // Si es válido, mostrar mensaje de éxito y limpiar el formulario
     if (isValid) {
         const formContainer = this.closest('.form-container');
         if (formContainer) {
@@ -193,30 +166,30 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         return;
     }
-    // If there are errors, scroll to the first error field inside the form
+    // Si hay errores, hacer scroll al primer error
     const formContainer = this.closest('.form-container');
     const firstError = this.querySelector('.form-group.error, .checkbox-group.error');
     if (formContainer && firstError) {
       const formRect = formContainer.getBoundingClientRect();
       const errorRect = firstError.getBoundingClientRect();
-      // Calculate the scroll position relative to the form container
-      const scrollTop = formContainer.scrollTop + (errorRect.top - formRect.top) - 20; // 20px offset for padding
+      const scrollTop = formContainer.scrollTop + (errorRect.top - formRect.top) - 20;
       formContainer.scrollTo({ top: scrollTop, behavior: 'smooth' });
     }
   });
 
-  // Phone number validation with prefix
+  // Validación y formateo del teléfono
   let lastPhoneValue = '';
-  const prefixWrapper = document.querySelector('.phone-prefix-wrapper');
+  const prefixWrapper = document.querySelector('.phone-prefix-wrapper'); // Dropdown de prefijo
   const prefixBtn = prefixWrapper.querySelector('.select-btn');
   const prefixOptions = prefixWrapper.querySelectorAll('.option');
-  let selectedPrefix = '569'; // Default prefix
+  let selectedPrefix = '569'; // Prefijo por defecto
 
-  // Handle prefix selection
+  // Abrir/cerrar dropdown de prefijo
   prefixBtn.addEventListener('click', () => {
     prefixWrapper.classList.toggle('active');
   });
 
+  // Selección de prefijo
   prefixOptions.forEach(option => {
     option.addEventListener('click', () => {
       selectedPrefix = option.dataset.value;
@@ -225,67 +198,56 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
+  // Cerrar dropdown de prefijo al hacer click fuera
   document.addEventListener('click', (e) => {
     if (!prefixWrapper.contains(e.target)) {
       prefixWrapper.classList.remove('active');
     }
   });
 
+  // Formatear teléfono en tiempo real
   function formatPhoneNumber(value) {
-    // Remove all non-numeric characters
     value = value.replace(/[^0-9]/g, '');
-    
-    // Limit to 8 digits
     if (value.length > 8) {
       value = value.substring(0, 8);
     }
-    
-    // Format as XXXX XXXX
     if (value.length > 4) {
       value = value.substring(0, 4) + ' ' + value.substring(4);
     }
-    
     return value;
   }
 
   phoneInput.addEventListener('input', function(e) {
-    // Get the current cursor position
     const cursorPosition = this.selectionStart;
-    
-    // Format the number
     let formattedValue = formatPhoneNumber(this.value);
-    
-    // Only update if the value has actually changed and is different from the last value
     if (this.value !== formattedValue && lastPhoneValue !== formattedValue) {
       lastPhoneValue = formattedValue;
       this.value = formattedValue;
-      
-      // Calculate new cursor position
       let newCursorPosition = cursorPosition;
       if (cursorPosition === 5 && formattedValue.length > 4) {
-        newCursorPosition = 6; // Move cursor after the space
+        newCursorPosition = 6;
       } else if (cursorPosition > 4 && formattedValue.length > 4) {
-        newCursorPosition = cursorPosition + 1; // Adjust for the space
+        newCursorPosition = cursorPosition + 1;
       }
-      
-      // Restore cursor position
       setTimeout(() => {
         this.setSelectionRange(newCursorPosition, newCursorPosition);
       }, 0);
     }
   });
 
-  // Handle form submission to add the prefix
+  // Al enviar el formulario, construir el número completo con prefijo
   document.querySelector('form').addEventListener('submit', function(e) {
     const phoneValue = phoneInput.value.replace(/[^0-9]/g, '');
     if (phoneValue.length === 8) {
       const fullPhoneNumber = selectedPrefix + phoneValue;
-      // You can store this value or send it to your backend
+      // Aquí puedes enviar el número completo al backend o usarlo como necesites
       console.log('Full phone number:', fullPhoneNumber);
     }
   });
 
+  // Inicializar los dropdowns personalizados
   function setupSelect(selectWrapper) {
+    // Referencias a los elementos del dropdown
     const selectBtn = selectWrapper.querySelector('.select-btn');
     const selectContent = selectWrapper.querySelector('.select-content');
     const options = Array.from(selectWrapper.querySelectorAll('.option'));
@@ -293,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const isProjectSelect = selectWrapper.id === 'project-select';
     const selectedSet = isProjectSelect ? selectedProjects : selectedRoomTypes;
 
-    // Setup search functionality for project select only
+    // Búsqueda en el dropdown de proyectos
     if (isProjectSelect) {
       const searchInput = selectWrapper.querySelector('.search-input');
       if (searchInput) {
@@ -308,108 +270,112 @@ document.addEventListener('DOMContentLoaded', function() {
             option.style.display = text.includes(searchTerm) ? '' : 'none';
           });
         });
-
-        // Prevent dropdown from closing when clicking search
+        // Prevenir que se cierre el dropdown al hacer click en el buscador
         searchInput.addEventListener('click', (e) => {
           e.stopPropagation();
         });
       }
     }
 
+    // Abrir/cerrar el dropdown y autoscroll si corresponde
     selectBtn.addEventListener('click', () => {
       selectWrapper.classList.toggle('active');
-      // On mobile, when opening the project dropdown for the first time, auto-scroll the form to the bottom so the dropdown is fully visible
-      if (selectWrapper.id === 'project-select' && window.innerWidth <= 950 && selectWrapper.classList.contains('active')) {
+      // Autoscroll al fondo del formulario al abrir el dropdown por primera vez
+      if ((selectWrapper.id === 'project-select' || selectWrapper.id === 'room-type-select') && selectWrapper.classList.contains('active')) {
         const formContainer = selectWrapper.closest('.form-container');
         if (formContainer && !selectWrapper.dataset.formScrolled) {
+          // Aumentar temporalmente el max-height para permitir el scroll
+          const prevMaxHeight = formContainer.style.maxHeight;
+          formContainer.style.maxHeight = '1000px';
           setTimeout(() => {
             formContainer.scrollTo({ top: formContainer.scrollHeight, behavior: 'smooth' });
             selectWrapper.dataset.formScrolled = 'true';
+            setTimeout(() => {
+              formContainer.style.maxHeight = prevMaxHeight;
+            }, 400);
           }, 80);
         }
       }
     });
 
-    // Handle "Todos" option
-    const allOption = options.find(opt => opt.dataset.value === 'all');
-    if (allOption) {
-      allOption.addEventListener('click', () => {
-        const regularOptions = options.filter(opt => opt.dataset.value !== 'all');
-        const isAllSelected = allOption.classList.contains('selected');
-
-        if (isAllSelected) {
-          // Deselect everything
-          regularOptions.forEach(opt => {
-            opt.classList.remove('selected');
-            selectedSet.delete(opt.dataset.value);
-          });
-          allOption.classList.remove('selected');
-        } else {
-          // Select all regular options
-          regularOptions.forEach(opt => {
-            if (opt.style.display !== 'none') { // Only select visible options
-              opt.classList.add('selected');
-              selectedSet.add(opt.dataset.value);
-            }
-          });
-          allOption.classList.add('selected');
-        }
-        updateDisplay(selectWrapper, selectedSet, options);
-      });
+    // Lógica de la opción "Todos" solo para proyectos
+    let allOption = null;
+    if (isProjectSelect) {
+      allOption = options.find(opt => opt.dataset.value === 'all');
+      if (allOption) {
+        allOption.addEventListener('click', () => {
+          const regularOptions = options.filter(opt => opt.dataset.value !== 'all');
+          const isAllSelected = allOption.classList.contains('selected');
+          if (isAllSelected) {
+            regularOptions.forEach(opt => {
+              opt.classList.remove('selected');
+              selectedSet.delete(opt.dataset.value);
+            });
+            allOption.classList.remove('selected');
+          } else {
+            regularOptions.forEach(opt => {
+              if (opt.style.display !== 'none') {
+                opt.classList.add('selected');
+                selectedSet.add(opt.dataset.value);
+              }
+            });
+            allOption.classList.add('selected');
+          }
+          updateDisplay(selectWrapper, selectedSet, options);
+        });
+      }
     }
 
-    // Handle individual options
+    // Selección individual de opciones
     options.forEach(option => {
       if (option.dataset.value !== 'all') {
         option.addEventListener('click', () => {
           const isSelected = option.classList.contains('selected');
-          
           if (isSelected) {
             option.classList.remove('selected');
             selectedSet.delete(option.dataset.value);
-            if (allOption) allOption.classList.remove('selected');
+            if (isProjectSelect && allOption) allOption.classList.remove('selected');
           } else {
             option.classList.add('selected');
             selectedSet.add(option.dataset.value);
-            
-            // Check if all regular options are selected
-            const regularOptions = options.filter(opt => opt.dataset.value !== 'all');
-            const allRegularSelected = regularOptions.every(opt => opt.classList.contains('selected'));
-            if (allRegularSelected && allOption) {
-              allOption.classList.add('selected');
+            if (isProjectSelect && allOption) {
+              const regularOptions = options.filter(opt => opt.dataset.value !== 'all');
+              const allRegularSelected = regularOptions.every(opt => opt.classList.contains('selected'));
+              if (allRegularSelected) {
+                allOption.classList.add('selected');
+              }
             }
           }
-          
           updateDisplay(selectWrapper, selectedSet, options);
         });
       }
     });
 
+    // Cerrar el dropdown al hacer click fuera
     document.addEventListener('click', (e) => {
       if (!selectWrapper.contains(e.target)) {
         selectWrapper.classList.remove('active');
       }
     });
 
-    // For project select
+    // Texto inicial del botón
     if (isProjectSelect) {
       selectBtn.innerHTML = '<span class="select-btn-text">Selecciona uno o más proyectos</span>';
     } else {
       selectBtn.innerHTML = '<span class="select-btn-text">Selecciona uno o más tipos</span>';
     }
-
-    // In setupSelect, update the initial button text for prefix select as well
+    // Prefijo de teléfono
     if (selectWrapper.classList.contains('phone-prefix-wrapper')) {
       selectBtn.innerHTML = '<span class="select-btn-text">+56 9</span>';
     }
   }
 
+  // Actualizar visualización de los tags seleccionados y el texto del botón
   function updateDisplay(selectWrapper, selectedSet, options) {
     const selectedContainer = selectWrapper.querySelector('.selected-projects');
     const selectBtn = selectWrapper.querySelector('.select-btn');
     const formGroup = selectWrapper.closest('.form-group');
-
-    // Clear and update selected tags
+    // Limpiar y actualizar los tags
     selectedContainer.innerHTML = '';
     let hasTags = false;
     options.forEach(option => {
@@ -417,22 +383,22 @@ document.addEventListener('DOMContentLoaded', function() {
         hasTags = true;
         const tag = document.createElement('div');
         tag.className = 'selected-project';
-        // Only use the project name (text before the comuna span)
         let projectName = option.childNodes[0].textContent.trim();
         tag.innerHTML = `${projectName}<span class="remove">×</span>`;
         tag.querySelector('.remove').addEventListener('click', (e) => {
           e.stopPropagation();
           option.classList.remove('selected');
           selectedSet.delete(option.dataset.value);
-          const allOption = options.find(opt => opt.dataset.value === 'all');
-          if (allOption) allOption.classList.remove('selected');
+          if (selectWrapper.id === 'project-select') {
+            const allOption = options.find(opt => opt.dataset.value === 'all');
+            if (allOption) allOption.classList.remove('selected');
+          }
           updateDisplay(selectWrapper, selectedSet, options);
         });
         selectedContainer.appendChild(tag);
       }
     });
-
-    // Force .form-group to auto height if tags are present
+    // Ajustar altura del grupo si hay tags
     if (formGroup) {
       if (hasTags) {
         formGroup.style.height = 'auto';
@@ -442,36 +408,35 @@ document.addEventListener('DOMContentLoaded', function() {
         formGroup.style.minHeight = '';
       }
     }
-
-    // Update button text
+    // Actualizar texto del botón
     const selectedCount = selectedSet.size;
     selectBtn.innerHTML = `<span class="select-btn-text">${selectedCount > 0 ? `${selectedCount} seleccionados` : 'Selecciona uno o más'}</span>`;
-
-    // Show/hide room type group for project select
+    // Mostrar/ocultar grupo de tipo de departamento según selección de proyecto
     if (selectWrapper.id === 'project-select') {
       roomTypeGroup.style.display = selectedCount > 0 ? 'block' : 'none';
     }
   }
 
+  // Inicializar los selectores personalizados
   setupSelect(projectSelect);
   setupSelect(roomTypeSelect);
 });
 
-// Add input event listeners to clear error states
+// Limpiar errores al escribir en inputs o selects
 document.querySelectorAll('input, select').forEach(input => {
     input.addEventListener('input', function() {
         this.closest('.form-group, .checkbox-group')?.classList.remove('error');
     });
 });
 
-// Add change event listeners for checkboxes
+// Limpiar errores al cambiar el checkbox
 document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
     checkbox.addEventListener('change', function() {
         this.closest('.checkbox-group')?.classList.remove('error');
     });
 });
 
-// Add change event listeners for project and room type selects
+// Limpiar errores al interactuar con los selectores personalizados
 document.querySelectorAll('.select-wrapper').forEach(select => {
     select.addEventListener('click', function() {
         this.closest('.form-group')?.classList.remove('error');
