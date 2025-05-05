@@ -1092,7 +1092,15 @@ input:-webkit-autofill:active{
 
 @media (max-width: 400px) {
   .form-container {
-    max-height: 50vh;
+    max-height: 60vh;
     padding-bottom: 20px;
+    margin: 10px auto;
+  }
+
+  .promo-mobile-text {
+    margin-top: 80px;
+    margin-bottom: 0px;
+    margin-left: auto;
+    margin-right: auto;
   }
 } 
