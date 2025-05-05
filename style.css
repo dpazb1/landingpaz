@@ -164,7 +164,7 @@ body {
   padding: 0 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  background-color: var(--form-bg);
+  background-color: #ffffff !important;
   cursor: pointer;
   text-align: left;
   position: relative;
@@ -269,6 +269,7 @@ body {
 
 .form-group.error .select-btn {
   /* border-color: #e74c3c; */
+  background-color: #ffffff !important;
 }
 
 .error-message {
@@ -387,7 +388,7 @@ bottom: 20px;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 14px;
-  background-color: var(--form-bg);
+  background-color: #ffffff !important;
   transition: all 0.3s ease;
   color: var(--primary-color);
   font-weight: 300 !important;
@@ -415,7 +416,7 @@ bottom: 20px;
   padding: 0 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  background-color: var(--form-bg);
+  background-color: #ffffff !important;
   cursor: pointer;
   text-align: left;
   position: relative;
@@ -609,18 +610,26 @@ bottom: 20px;
   html, body {
     height: 100%;
     min-height: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden; /* Prevent page scroll, only form scrolls */
   }
   .main-section {
-    position: static;
+    position: fixed; 
     min-height: 100vh;
-    height: auto;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-position: right top;
+    background-size: cover;
+    z-index: 1;
   }
   .container {
     min-height: 100vh;
-    height: auto;
+    height: 100vh;
     display: block;
+    overflow: visible;
   }
   .form-container {
     height: 62svh;
@@ -630,6 +639,8 @@ bottom: 20px;
     padding: 20px;
     max-width: 400px;
     width: 90%;
+    position: relative;
+    z-index: 4;
   }
   
   .footer-logo-container {
@@ -759,7 +770,7 @@ bottom: 20px;
   padding: 0 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  background-color: var(--form-bg);
+  background-color: #ffffff !important;
   cursor: pointer;
   text-align: left;
   position: relative;
@@ -870,7 +881,7 @@ bottom: 20px;
     padding: 0 12px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    background-color: var(--form-bg);
+    background-color: #ffffff !important;
     cursor: pointer;
     text-align: left;
     position: relative;
@@ -909,4 +920,10 @@ input:-webkit-autofill:active{
 /* Ensure the comuna stays visible when option is hovered */
 .select-wrapper .option:hover .comuna {
   opacity: 1;
+}
+
+.form-group.error .select-btn,
+.select-wrapper.error .select-btn,
+.form-group.error .form-control {
+  background-color: #ffffff !important;
 } 

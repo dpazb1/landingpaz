@@ -180,19 +180,37 @@ document.addEventListener('DOMContentLoaded', function() {
         const successMessage = document.createElement('div');
         successMessage.className = 'success-message';
         successMessage.textContent = '¡Gracias por contactarnos! Nos pondremos en contacto contigo pronto.';
-        this.appendChild(successMessage);
-        
-        // Reset form
-        this.reset();
-        document.getElementById('project-select').querySelector('.selected-projects').innerHTML = '';
-        document.getElementById('project-select').querySelector('.select-btn').textContent = 'Selecciona uno o más proyectos';
-        document.getElementById('room-type-select').querySelector('.selected-projects').innerHTML = '';
-        document.getElementById('room-type-select').querySelector('.select-btn').textContent = 'Selecciona uno o más tipos';
-        
-        // Remove success message after 5 seconds
-        setTimeout(() => {
-            successMessage.remove();
-        }, 5000);
+        // Remove all form content except the success message
+        const form = this;
+        // Remove all children of the form
+        while (form.firstChild) {
+          form.removeChild(form.firstChild);
+        }
+        // Append the success message
+        form.appendChild(successMessage);
+        // Scroll the form container to the bottom to show the success message
+        const formContainer = form.closest('.form-container');
+        if (formContainer) {
+          setTimeout(() => {
+            formContainer.scrollTo({ top: formContainer.scrollHeight, behavior: 'smooth' });
+            // Adjust the form container size to fit the success message, but a little bigger
+            formContainer.style.height = 'auto';
+            formContainer.style.maxHeight = 'none';
+            formContainer.style.minHeight = '200px';
+          }, 100); // Wait for DOM update
+        }
+        // No need to reset or remove the message anymore
+        return;
+    }
+    // If there are errors, scroll to the first error field inside the form
+    const formContainer = this.closest('.form-container');
+    const firstError = this.querySelector('.form-group.error, .checkbox-group.error');
+    if (formContainer && firstError) {
+      const formRect = formContainer.getBoundingClientRect();
+      const errorRect = firstError.getBoundingClientRect();
+      // Calculate the scroll position relative to the form container
+      const scrollTop = formContainer.scrollTop + (errorRect.top - formRect.top) - 20; // 20px offset for padding
+      formContainer.scrollTo({ top: scrollTop, behavior: 'smooth' });
     }
   });
 
