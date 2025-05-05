@@ -18,6 +18,8 @@
   --input-border: #ddd; /* Borde de inputs */
   --input-border-light: #eee; /* Borde claro */
   --accent: #7263ac; /* Morado acento */
+  --secondary: #e18419; /* Color secundario */
+  --secondary-hover: #b8690f; /* Color secundario hover */
 }
 
 /* ==============================
@@ -98,6 +100,7 @@ body {
   z-index: 10;
   padding: 0;
   margin: 0;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 /* ==============================
@@ -121,6 +124,7 @@ body {
   margin-bottom: 20px;
   height: 580px;
   max-height: 580px;
+  padding-bottom: calc(20px + env(safe-area-inset-bottom));
 }
 
 /* Scrollbar personalizado para el formulario */
@@ -154,6 +158,14 @@ body {
   text-align: center;
   letter-spacing: 1px;
   text-transform: uppercase;
+}
+
+.form-title span {
+  color: var(--secondary);
+}
+
+.promo-mobile-text span {
+  color: var(--secondary);
 }
 
 /* ==============================
@@ -522,7 +534,7 @@ bottom: 20px;
    ============================== */
 
 .btn-submit {
-  background-color: var(--accent);
+  background-color: var(--secondary);
   color: var(--white);
   border: none;
   padding: 12px 24px;
@@ -540,7 +552,7 @@ bottom: 20px;
 }
 
 .btn-submit:hover {
-  background-color: var(--purple-hover);
+  background-color: var(--secondary-hover);
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(114, 99, 172, 0.3);
 }
@@ -671,6 +683,7 @@ bottom: 20px;
   }
   
   .footer-logo {
+    margin-top: 20px;
     width: 80px;
   }
 
@@ -781,6 +794,7 @@ bottom: 20px;
   gap: 10px;
   position: relative;
   height: 42.5px;
+  width: 100%;
 }
 
 /* ==============================
@@ -788,13 +802,22 @@ bottom: 20px;
    ============================== */
 .phone-prefix-wrapper {
   width: 85px;
-  height: 100%;
   flex-shrink: 0;
+  height: 100%;
 }
 
 .phone-input-container .form-control {
-  flex: 1;
+  flex: 1 1 0%;
+  min-width: 0;
   height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.custom-placeholder-wrapper {
+  width: 100%;
+  display: flex;
+  flex: 1 1 0%;
 }
 
 .phone-prefix-wrapper .select-btn {
@@ -992,19 +1015,20 @@ input:-webkit-autofill:active{
     padding-top: 0;
   }
   .promo-mobile-text {
+    padding: 10px 10px 10px 10px;
     display: block;
     color: var(--white);
-    padding: 0 12px 10px 12px;
     font-size: 20px;
     font-weight: 300;
     text-align: center;
-    margin-top: 50px;
+    margin-top: 80px;
     margin-bottom: 10px;
     max-width: 430px;
     margin-left: auto;
     margin-right: auto;
     line-height: 1.8;
     letter-spacing: 0.01em;
+    box-sizing: border-box;
   }
   .container {
     gap: 20px;
@@ -1016,8 +1040,18 @@ input:-webkit-autofill:active{
   }
   
   .footer-logo-container {
-    bottom: 20px;
-    right: 20px;
+    position: fixed;
+    left: 50%;
+    top: 2%;
+    bottom: auto;
+    transform: translateX(-50%);
+    margin: 0;
+    width: fit-content;
+    display: block;
+    z-index: 10;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: 0;
+    margin-top: 0;
   }
   
   .main-section {
@@ -1034,6 +1068,7 @@ input:-webkit-autofill:active{
     margin: 20px auto;
     width: 90%;
     max-width: 400px;
+    padding-bottom: calc(80px + env(safe-area-inset-bottom));
   }
 }
 
@@ -1042,4 +1077,10 @@ input:-webkit-autofill:active{
    ============================== */
 #room-type-select .select-content {
   max-height: 350px;
+}
+
+/* Asterisks */
+.placeholder-secondary-asterisk {
+  color: var(--secondary) !important;
+  font-weight: 300;
 } 

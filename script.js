@@ -360,9 +360,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Texto inicial del botón
     if (isProjectSelect) {
-      selectBtn.innerHTML = '<span class="select-btn-text">Selecciona uno o más proyectos</span>';
+      selectBtn.innerHTML = '<span class="select-btn-text">Selecciona uno o más proyectos <span class="placeholder-secondary-asterisk">*</span></span>';
     } else {
-      selectBtn.innerHTML = '<span class="select-btn-text">Selecciona uno o más tipos</span>';
+      selectBtn.innerHTML = '<span class="select-btn-text">Selecciona uno o más tipos <span class="placeholder-secondary-asterisk">*</span></span>';
     }
     // Prefijo de teléfono
     if (selectWrapper.classList.contains('phone-prefix-wrapper')) {
@@ -420,6 +420,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // Inicializar los selectores personalizados
   setupSelect(projectSelect);
   setupSelect(roomTypeSelect);
+
+  // Highlight asterisks in placeholders with secondary color
+  stylePlaceholderAsterisks();
 });
 
 // Limpiar errores al escribir en inputs o selects
@@ -441,4 +444,49 @@ document.querySelectorAll('.select-wrapper').forEach(select => {
     select.addEventListener('click', function() {
         this.closest('.form-group')?.classList.remove('error');
     });
-}); 
+});
+
+// Highlight asterisks in placeholders with secondary color
+function stylePlaceholderAsterisks() {
+  const inputs = document.querySelectorAll('input[placeholder*="*"]');
+  inputs.forEach(input => {
+    const placeholder = input.getAttribute('placeholder');
+    if (placeholder.includes('*')) {
+      // Only works visually if we use a fake placeholder overlay
+      const wrapper = document.createElement('div');
+      wrapper.className = 'custom-placeholder-wrapper';
+      wrapper.style.position = 'relative';
+      input.parentNode.insertBefore(wrapper, input);
+      wrapper.appendChild(input);
+      // Create overlay
+      const overlay = document.createElement('div');
+      overlay.className = 'custom-placeholder-overlay';
+      overlay.style.position = 'absolute';
+      overlay.style.left = '12px';
+      overlay.style.top = '50%';
+      overlay.style.transform = 'translateY(-50%)';
+      overlay.style.pointerEvents = 'none';
+      overlay.style.color = getComputedStyle(input).color;
+      overlay.style.opacity = '0.8';
+      overlay.style.fontSize = getComputedStyle(input).fontSize;
+      overlay.style.fontFamily = getComputedStyle(input).fontFamily;
+      overlay.style.width = '100%';
+      overlay.style.whiteSpace = 'nowrap';
+      overlay.style.overflow = 'hidden';
+      overlay.style.textOverflow = 'ellipsis';
+      // Replace * with span
+      overlay.innerHTML = placeholder.replace(/\*/g, '<span class="placeholder-secondary-asterisk">*</span>');
+      wrapper.appendChild(overlay);
+      // Hide overlay when input has value or is focused
+      function toggleOverlay() {
+        overlay.style.display = (input.value || document.activeElement === input) ? 'none' : 'block';
+      }
+      input.addEventListener('input', toggleOverlay);
+      input.addEventListener('focus', toggleOverlay);
+      input.addEventListener('blur', toggleOverlay);
+      toggleOverlay();
+      // Remove native placeholder
+      input.setAttribute('placeholder', '');
+    }
+  });
+} 
