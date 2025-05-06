@@ -152,9 +152,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const formContainer = this.closest('.form-container');
         if (formContainer) {
             formContainer.innerHTML = `
-                <h3 class="form-title">Inscríbete aquí</h3>
+                <h3 class="form-title success">¡Muchas gracias!</h3>
                 <div class="success-message">
-                    ¡Gracias por contactarnos! Nos pondremos en contacto contigo pronto.
+                    Recibimos tu solicitud. ¡Nos pondremos en contacto contigo pronto!
                 </div>
             `;
             formContainer.style.height = 'auto';
@@ -278,22 +278,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Abrir/cerrar el dropdown y autoscroll si corresponde
+    let hasScrolled = false;
     selectBtn.addEventListener('click', () => {
       selectWrapper.classList.toggle('active');
-      // Autoscroll al fondo del formulario al abrir el dropdown por primera vez
-      if ((selectWrapper.id === 'project-select' || selectWrapper.id === 'room-type-select') && selectWrapper.classList.contains('active')) {
+      // Autoscroll to bottom of form only the first time this dropdown is opened
+      if (!hasScrolled && (selectWrapper.id === 'project-select' || selectWrapper.id === 'room-type-select')) {
         const formContainer = selectWrapper.closest('.form-container');
-        if (formContainer && !selectWrapper.dataset.formScrolled) {
-          // Aumentar temporalmente el max-height para permitir el scroll
-          const prevMaxHeight = formContainer.style.maxHeight;
-          formContainer.style.maxHeight = '1000px';
+        if (formContainer) {
           setTimeout(() => {
             formContainer.scrollTo({ top: formContainer.scrollHeight, behavior: 'smooth' });
-            selectWrapper.dataset.formScrolled = 'true';
-            setTimeout(() => {
-              formContainer.style.maxHeight = prevMaxHeight;
-            }, 400);
           }, 80);
+          hasScrolled = true;
         }
       }
     });

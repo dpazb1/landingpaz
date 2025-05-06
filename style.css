@@ -112,19 +112,18 @@ body {
   box-shadow: var(--form-shadow);
   padding: 25px;
   border-radius: 8px;
-  width: 400px;
-  margin-right: 140px;
+  width: 100%;
+  max-width: 400px;
+  min-width: 0;
+  max-height: 70vh;
+  min-height: 320px;
+  overflow-y: auto;
+  padding-bottom: 20px;
+  margin: 20px;
   position: relative;
   z-index: 4;
-  max-height: 700px;
-  overflow-y: scroll;
   scrollbar-width: thin;
   scrollbar-color: var(--primary-gradient-start) var(--scrollbar-bg, #e5e5f7);
-  margin-top: 20px;
-  margin-bottom: 20px;
-  height: 580px;
-  max-height: 580px;
-  padding-bottom: calc(20px + env(safe-area-inset-bottom));
 }
 
 /* Scrollbar personalizado para el formulario */
@@ -168,6 +167,11 @@ body {
   color: var(--secondary);
 }
 
+.form-title.success {
+  font-size: 1.5rem;
+  margin-bottom: 24px;
+}
+
 /* ==============================
    Grupos de campos del formulario
    ============================== */
@@ -176,6 +180,8 @@ body {
   margin-bottom: 15px;
   position: relative;
   height: 42.5px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .form-group:has(.selected-projects:not(:empty)) {
@@ -194,6 +200,7 @@ body {
 .select-wrapper {
   position: relative;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .select-btn {
@@ -407,6 +414,7 @@ body {
   color: var(--dark-gray);
   cursor: pointer;
   font-weight: 300 !important;
+  vertical-align: middle;
 }
 
 .error-auth {
@@ -568,7 +576,8 @@ bottom: 20px;
 }
 
 .footer-logo {
-  width: 120px;
+  margin-top: 15px;
+  width: 100px;
   height: auto;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
@@ -671,25 +680,8 @@ bottom: 20px;
     overflow: visible;
   }
   .form-container {
-    height: 65svh;
-    max-height: 65svh;
-    overflow-y: auto;
-    margin: 5px auto 20px auto;
-    padding: 20px;
-    max-width: 400px;
-    width: 90%;
-    position: relative;
-    z-index: 4;
-  }
-  
-  .footer-logo-container {
-    bottom: 20px;
-    right: 20px;
-  }
-  
-  .footer-logo {
-    margin-top: 20px;
-    width: 80px;
+    padding-bottom: 16px;
+    margin: 6px auto;
   }
 
   .phone-input-container {
@@ -796,10 +788,10 @@ bottom: 20px;
 .phone-input-container {
   display: flex;
   align-items: center;
-  gap: 10px;
-  position: relative;
-  height: 42.5px;
+  gap: 8px;
   width: 100%;
+  height: 42.5px;
+  margin-bottom: 0;
 }
 
 /* ==============================
@@ -807,6 +799,7 @@ bottom: 20px;
    ============================== */
 .phone-prefix-wrapper {
   width: 85px;
+  min-width: 70px;
   flex-shrink: 0;
   height: 100%;
 }
@@ -1005,12 +998,18 @@ input:-webkit-autofill:active{
    ============================== */
 .promo-mobile-text {
   display: none;
+  padding: 10px 10px 0 10px;
+  margin-top: 80px;
+  margin-bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
 }
 
 /* ==============================
    Media queries para tablets y móviles
    ============================== */
-@media (max-width: 950px) {
+@media (max-width: 1050px) {
   .main-content {
     flex-direction: column;
     align-items: center;
@@ -1069,11 +1068,15 @@ input:-webkit-autofill:active{
   }
   
   .form-container {
-    max-height: calc(100vh - 40px);
-    margin: 20px auto;
-    width: 90%;
-    max-width: 400px;
-    /* padding-bottom: calc(80px + env(safe-area-inset-bottom)); */
+    max-width: 45vw;
+    max-height: 70vh;
+  }
+}
+
+@media (max-width: 825px) {
+  .form-container {
+    max-width: 50vw;
+    max-height: 70vh;
   }
 }
 
@@ -1090,19 +1093,37 @@ input:-webkit-autofill:active{
   font-weight: 300;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 700px) {
   .form-container {
-    max-height: 60vh;
+    max-width: 60vw;
+    min-width: 0;
+    min-height: 220px;
     padding-bottom: 20px;
-    margin: 10px auto;
+    margin: 8px auto;
   }
+}
 
+@media (max-width: 595px) {
+  .form-container {
+    max-width: 70vw;
+    max-height: 70vh;
+  }
+}
+
+@media (max-width: 404px) {
+  .form-container {
+    max-height: 65vh;
+  }
   .promo-mobile-text {
-    padding: 10px 10px 10px 10px;
-    padding-bottom: 0px;
-    margin-top: 80px;
-    margin-bottom: 0px;
-    margin-left: auto;
-    margin-right: auto;
+    font-size: 14px;
+  }
+  .footer-logo-container {
+    bottom: 20px;
+    right: 20px;
+  }
+  
+  .footer-logo {
+    margin-top: 20px;
+    width: 80px;
   }
 } 
